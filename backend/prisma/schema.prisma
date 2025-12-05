@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model Rfp {
+  id              Int       @id @default(autoincrement())
+  title           String
+  descriptionRaw  String
+  budget          Float?
+  currency        String?   @default("USD")
+  deliveryBy      DateTime?
+  paymentTerms    String?
+  requirements    Json?
+  createdAt       DateTime  @default(now())
+
+  proposals       Proposal[]
+  rfpVendors      RfpVendor[]
+}
+
+model Vendor {
+  id           Int         @id @default(autoincrement())
+  name         String
+  email        String
+  contactPerson String?
+  notes        String?
+
+  proposals   Proposal[]
+  rfpVendors  RfpVendor[]
+}
+
+model RfpVendor {
+  id        Int   @id @default(autoincrement())
+  rfp       Rfp   @relation(fields: [rfpId], references: [id])
+  rfpId     Int
+  vendor    Vendor @relation(fields: [vendorId], references: [id])
+  vendorId  Int
+  status    String @default("invited")
+}
+
+model Proposal {
+  id               Int      @id @default(autoincrement())
+  rfp              Rfp      @relation(fields: [rfpId], references: [id])
+  rfpId            Int
+  vendor           Vendor   @relation(fields: [vendorId], references: [id])
+  vendorId         Int
+  emailMessageId   String?
+  parsedAt         DateTime?
+
+  totalPrice       Float?
+  currency         String?  @default("USD")
+  deliveryDays     Int?
+  warrantyMonths   Int?
+  paymentTermsText String?
+  lineItems        Json?
+  rawExtracted     Json?
+
+  score            ProposalScore?
+}
+
+model ProposalScore {
+  id             Int       @id @default(autoincrement())
+  proposal       Proposal  @relation(fields: [proposalId], references: [id])
+  proposalId     Int       @unique
+  priceScore     Float?
+  deliveryScore  Float?
+  warrantyScore  Float?
+  overallScore   Float?
+  explanation    String?
+}
