@@ -357,7 +357,66 @@ app.get('/rfps/:rfpId/proposals', async (req, res) => {
   }
 });
 
+//-----------------------------------------------------
+//Mailer Service for sending proposals
+import { mailer } from './mailer';
 
+app.post('/rfps/:rfpId/send-emails', async (req, res) => {
+  try {
+    const rfpId = parseInt(req.params.rfpId, 10);
+    if (Number.isNaN(rfpId)) {
+      return res.status(400).json({ message: 'Invalid rfpId in URL' });
+    }
+
+    const rfp = await prisma.rfp.findUnique({
+      where: { id: rfpId },
+      include: {
+        rfpVendors: {
+          include: { vendor: true },
+        },
+      },
+    });
+
+    if (!rfp) return res.status(404).json({ message: 'RFP not found' });
+
+    const invited = rfp.rfpVendors.filter((rv) => rv.status === 'invited');
+
+    const sendPromises = invited.map((rv) =>
+      mailer.sendMail({
+        from: process.env.SMTP_USER,
+        to: rv.vendor.email,
+        subject: `RFP: ${rfp.title}`,
+        text: `Dear ${rv.vendor.name},
+
+We invite you to submit a proposal for the following RFP:
+
+Title: ${rfp.title}
+Budget: ${rfp.budget ?? 'N/A'} ${rfp.currency ?? ''}
+Delivery by: ${rfp.deliveryBy ?? 'Not specified'}
+Payment terms: ${rfp.paymentTerms ?? 'Not specified'}
+
+Description:
+${rfp.descriptionRaw}
+
+Please reply to this email with your proposal.
+
+Thanks,
+Procurement`,
+      })
+    );
+
+    await Promise.all(sendPromises);
+
+    return res.json({
+      message: 'Emails sent to invited vendors',
+      count: invited.length,
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Failed to send RFP emails' });
+  }
+});
+//---------------------------------------------------------
 
 
 app.listen(PORT, () => {
