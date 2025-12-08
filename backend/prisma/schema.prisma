@@ -15,6 +15,28 @@ generator client {
 
 
 
+model User {
+  id            Int       @id @default(autoincrement())
+  email         String    @unique
+  password      String
+  name          String
+  role          String    @default("vendor") // "requester" or "vendor"
+  companyName   String?
+  phone         String?
+  address       String?
+  city          String?
+  state         String?
+  country       String?
+  postalCode    String?
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations - A user who is a requester creates RFPs
+  createdRfps   Rfp[]     @relation("RequesterRfps")
+}
+
+// Update your existing Rfp model to include requester
 model Rfp {
   id              Int       @id @default(autoincrement())
   title           String
@@ -25,20 +47,25 @@ model Rfp {
   paymentTerms    String?
   requirements    Json?
   createdAt       DateTime  @default(now())
+  
+  // Add requester relation
+  requesterId     Int?
+  requester       User?     @relation("RequesterRfps", fields: [requesterId], references: [id], onDelete: SetNull)
 
   proposals       Proposal[]
   rfpVendors      RfpVendor[]
 }
 
+// Vendor model - link to User
 model Vendor {
-  id           Int         @id @default(autoincrement())
-  name         String
-  email        String
+  id            Int       @id @default(autoincrement())
+  name          String
+  email         String
   contactPerson String?
-  notes        String?
+  notes         String?
 
-  proposals   Proposal[]
-  rfpVendors  RfpVendor[]
+  proposals     Proposal[]
+  rfpVendors    RfpVendor[]
 }
 
 model RfpVendor {

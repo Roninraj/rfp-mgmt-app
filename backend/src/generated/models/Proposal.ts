@@ -628,14 +628,6 @@ export type ProposalUncheckedUpdateManyWithoutVendorNestedInput = {
   deleteMany?: Prisma.ProposalScalarWhereInput | Prisma.ProposalScalarWhereInput[]
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type ProposalCreateNestedOneWithoutScoreInput = {
   create?: Prisma.XOR<Prisma.ProposalCreateWithoutScoreInput, Prisma.ProposalUncheckedCreateWithoutScoreInput>
   connectOrCreate?: Prisma.ProposalCreateOrConnectWithoutScoreInput
