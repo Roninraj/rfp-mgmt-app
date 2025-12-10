@@ -1,40 +1,71 @@
-import { Request, Response } from 'express';
 import { proposalService } from '../services/proposal.service';
 
 export const proposalController = {
-  async create(req: Request, res: Response) {
+  // Create proposal
+  async create(req: any, res: any) {
     try {
-      const rfpId = parseInt(req.params.rfpId, 10);
-      if (Number.isNaN(rfpId)) {
-        return res.status(400).json({ message: 'Invalid rfpId in URL' });
+      const { rfpId, vendorId, totalPrice, currency, deliveryDays, warrantyMonths, paymentTermsText, lineItems, rawExtracted } = req.body;
+
+      if (!rfpId || !vendorId) {
+        return res.status(400).json({ message: 'rfpId and vendorId are required' });
       }
 
-      const { vendorId } = req.body;
-      if (!vendorId || !Number.isInteger(vendorId)) {
-        return res.status(400).json({ message: 'vendorId must be a valid integer' });
-      }
+      const proposal = await proposalService.createProposal({
+        rfpId: Number(rfpId),
+        vendorId: Number(vendorId),
+        totalPrice,
+        currency,
+        deliveryDays,
+        warrantyMonths,
+        paymentTermsText,
+        lineItems,
+        rawExtracted,
+      });
 
-      const result = await proposalService.createProposal(rfpId, req.body);
-      return res.status(201).json(result);
-    } catch (err) {
-      console.error(err);
-      const errorMsg = (err as Error).message;
-      return res.status(400).json({ message: errorMsg || 'Failed to create proposal' });
+      res.status(201).json({ message: 'Proposal created', proposal });
+    } catch (err: any) {
+      res.status(400).json({ message: err.message });
     }
   },
 
-  async getByRfpId(req: Request, res: Response) {
+  // Get proposals for an RFP
+  async getByRfp(req: any, res: any) {
     try {
-      const rfpId = parseInt(req.params.rfpId, 10);
-      if (Number.isNaN(rfpId)) {
-        return res.status(400).json({ message: 'Invalid rfpId in URL' });
-      }
+      const rfpId = Number(req.params.rfpId);
+      if (!rfpId) return res.status(400).json({ message: 'Invalid rfpId' });
 
       const proposals = await proposalService.getProposalsByRfpId(rfpId);
-      return res.json(proposals);
-    } catch (err) {
-      console.error(err);
-      return res.status(500).json({ message: 'Failed to fetch proposals' });
+      res.json(proposals);
+    } catch (err: any) {
+      res.status(400).json({ message: err.message });
+    }
+  },
+
+  // ✅ Get proposals by vendor
+  async getByVendor(req: any, res: any) {
+    try {
+      const vendorId = Number(req.params.vendorId);
+      if (!vendorId) return res.status(400).json({ message: 'Invalid vendorId' });
+
+      const proposals = await proposalService.getProposalsByVendorId(vendorId);
+      res.json(proposals);
+    } catch (err: any) {
+      res.status(400).json({ message: err.message });
+    }
+  },
+
+  // ✅ Get single proposal
+  async getById(req: any, res: any) {
+    try {
+      const id = Number(req.params.id);
+      if (!id) return res.status(400).json({ message: 'Invalid proposal ID' });
+
+      const proposal = await proposalService.getProposalById(id);
+      if (!proposal) return res.status(404).json({ message: 'Proposal not found' });
+
+      res.json(proposal);
+    } catch (err: any) {
+      res.status(400).json({ message: err.message });
     }
   },
 };

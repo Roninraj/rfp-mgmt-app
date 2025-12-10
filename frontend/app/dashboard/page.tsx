@@ -15,7 +15,7 @@ function DashboardContent() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-500">
       {/* Header 
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 py-6 flex justify-between items-center">
@@ -39,7 +39,7 @@ function DashboardContent() {
       <main className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {/* User Card */}
-          <div className="bg-white p-6 rounded-lg shadow-md border border-slate-200">
+          <div className=" bg-slate-300 p-6 rounded-lg shadow-md border border-slate-200">
             <h2 className="text-lg font-semibold text-slate-900 mb-4">Welcome! 👋</h2>
             <div className="space-y-3">
               <div>
@@ -62,7 +62,7 @@ function DashboardContent() {
           </div>
 
           {/* Quick Actions */}
-          <div className="bg-white p-6 rounded-lg shadow-md border border-slate-200">
+          <div className=" bg-slate-300 p-6 rounded-lg shadow-md border border-slate-200">
             <h2 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h2>
             <div className="space-y-3">
               {user?.role === 'requester' && (

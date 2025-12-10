@@ -28,10 +28,12 @@ export type AggregateVendor = {
 
 export type VendorAvgAggregateOutputType = {
   id: number | null
+  userId: number | null
 }
 
 export type VendorSumAggregateOutputType = {
   id: number | null
+  userId: number | null
 }
 
 export type VendorMinAggregateOutputType = {
@@ -40,6 +42,9 @@ export type VendorMinAggregateOutputType = {
   email: string | null
   contactPerson: string | null
   notes: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
+  userId: number | null
 }
 
 export type VendorMaxAggregateOutputType = {
@@ -48,6 +53,9 @@ export type VendorMaxAggregateOutputType = {
   email: string | null
   contactPerson: string | null
   notes: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
+  userId: number | null
 }
 
 export type VendorCountAggregateOutputType = {
@@ -56,16 +64,21 @@ export type VendorCountAggregateOutputType = {
   email: number
   contactPerson: number
   notes: number
+  createdAt: number
+  updatedAt: number
+  userId: number
   _all: number
 }
 
 
 export type VendorAvgAggregateInputType = {
   id?: true
+  userId?: true
 }
 
 export type VendorSumAggregateInputType = {
   id?: true
+  userId?: true
 }
 
 export type VendorMinAggregateInputType = {
@@ -74,6 +87,9 @@ export type VendorMinAggregateInputType = {
   email?: true
   contactPerson?: true
   notes?: true
+  createdAt?: true
+  updatedAt?: true
+  userId?: true
 }
 
 export type VendorMaxAggregateInputType = {
@@ -82,6 +98,9 @@ export type VendorMaxAggregateInputType = {
   email?: true
   contactPerson?: true
   notes?: true
+  createdAt?: true
+  updatedAt?: true
+  userId?: true
 }
 
 export type VendorCountAggregateInputType = {
@@ -90,6 +109,9 @@ export type VendorCountAggregateInputType = {
   email?: true
   contactPerson?: true
   notes?: true
+  createdAt?: true
+  updatedAt?: true
+  userId?: true
   _all?: true
 }
 
@@ -185,6 +207,9 @@ export type VendorGroupByOutputType = {
   email: string
   contactPerson: string | null
   notes: string | null
+  createdAt: Date
+  updatedAt: Date
+  userId: number | null
   _count: VendorCountAggregateOutputType | null
   _avg: VendorAvgAggregateOutputType | null
   _sum: VendorSumAggregateOutputType | null
@@ -216,6 +241,10 @@ export type VendorWhereInput = {
   email?: Prisma.StringFilter<"Vendor"> | string
   contactPerson?: Prisma.StringNullableFilter<"Vendor"> | string | null
   notes?: Prisma.StringNullableFilter<"Vendor"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Vendor"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Vendor"> | Date | string
+  userId?: Prisma.IntNullableFilter<"Vendor"> | number | null
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   proposals?: Prisma.ProposalListRelationFilter
   rfpVendors?: Prisma.RfpVendorListRelationFilter
 }
@@ -226,22 +255,30 @@ export type VendorOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   contactPerson?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrderInput | Prisma.SortOrder
+  user?: Prisma.UserOrderByWithRelationInput
   proposals?: Prisma.ProposalOrderByRelationAggregateInput
   rfpVendors?: Prisma.RfpVendorOrderByRelationAggregateInput
 }
 
 export type VendorWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  email?: string
+  userId?: number
   AND?: Prisma.VendorWhereInput | Prisma.VendorWhereInput[]
   OR?: Prisma.VendorWhereInput[]
   NOT?: Prisma.VendorWhereInput | Prisma.VendorWhereInput[]
   name?: Prisma.StringFilter<"Vendor"> | string
-  email?: Prisma.StringFilter<"Vendor"> | string
   contactPerson?: Prisma.StringNullableFilter<"Vendor"> | string | null
   notes?: Prisma.StringNullableFilter<"Vendor"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Vendor"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Vendor"> | Date | string
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   proposals?: Prisma.ProposalListRelationFilter
   rfpVendors?: Prisma.RfpVendorListRelationFilter
-}, "id">
+}, "id" | "email" | "userId">
 
 export type VendorOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -249,6 +286,9 @@ export type VendorOrderByWithAggregationInput = {
   email?: Prisma.SortOrder
   contactPerson?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.VendorCountOrderByAggregateInput
   _avg?: Prisma.VendorAvgOrderByAggregateInput
   _max?: Prisma.VendorMaxOrderByAggregateInput
@@ -265,6 +305,9 @@ export type VendorScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"Vendor"> | string
   contactPerson?: Prisma.StringNullableWithAggregatesFilter<"Vendor"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"Vendor"> | string | null
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Vendor"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Vendor"> | Date | string
+  userId?: Prisma.IntNullableWithAggregatesFilter<"Vendor"> | number | null
 }
 
 export type VendorCreateInput = {
@@ -272,6 +315,9 @@ export type VendorCreateInput = {
   email: string
   contactPerson?: string | null
   notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user?: Prisma.UserCreateNestedOneWithoutVendorInput
   proposals?: Prisma.ProposalCreateNestedManyWithoutVendorInput
   rfpVendors?: Prisma.RfpVendorCreateNestedManyWithoutVendorInput
 }
@@ -282,6 +328,9 @@ export type VendorUncheckedCreateInput = {
   email: string
   contactPerson?: string | null
   notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  userId?: number | null
   proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutVendorInput
   rfpVendors?: Prisma.RfpVendorUncheckedCreateNestedManyWithoutVendorInput
 }
@@ -291,6 +340,9 @@ export type VendorUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   contactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneWithoutVendorNestedInput
   proposals?: Prisma.ProposalUpdateManyWithoutVendorNestedInput
   rfpVendors?: Prisma.RfpVendorUpdateManyWithoutVendorNestedInput
 }
@@ -301,6 +353,9 @@ export type VendorUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   contactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   proposals?: Prisma.ProposalUncheckedUpdateManyWithoutVendorNestedInput
   rfpVendors?: Prisma.RfpVendorUncheckedUpdateManyWithoutVendorNestedInput
 }
@@ -311,6 +366,9 @@ export type VendorCreateManyInput = {
   email: string
   contactPerson?: string | null
   notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  userId?: number | null
 }
 
 export type VendorUpdateManyMutationInput = {
@@ -318,6 +376,8 @@ export type VendorUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   contactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type VendorUncheckedUpdateManyInput = {
@@ -326,6 +386,14 @@ export type VendorUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   contactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+export type VendorNullableScalarRelationFilter = {
+  is?: Prisma.VendorWhereInput | null
+  isNot?: Prisma.VendorWhereInput | null
 }
 
 export type VendorCountOrderByAggregateInput = {
@@ -334,10 +402,14 @@ export type VendorCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   contactPerson?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type VendorAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type VendorMaxOrderByAggregateInput = {
@@ -346,6 +418,9 @@ export type VendorMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   contactPerson?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type VendorMinOrderByAggregateInput = {
@@ -354,15 +429,59 @@ export type VendorMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   contactPerson?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type VendorSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type VendorScalarRelationFilter = {
   is?: Prisma.VendorWhereInput
   isNot?: Prisma.VendorWhereInput
+}
+
+export type VendorCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.VendorCreateWithoutUserInput, Prisma.VendorUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.VendorCreateOrConnectWithoutUserInput
+  connect?: Prisma.VendorWhereUniqueInput
+}
+
+export type VendorUncheckedCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.VendorCreateWithoutUserInput, Prisma.VendorUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.VendorCreateOrConnectWithoutUserInput
+  connect?: Prisma.VendorWhereUniqueInput
+}
+
+export type VendorUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.VendorCreateWithoutUserInput, Prisma.VendorUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.VendorCreateOrConnectWithoutUserInput
+  upsert?: Prisma.VendorUpsertWithoutUserInput
+  disconnect?: Prisma.VendorWhereInput | boolean
+  delete?: Prisma.VendorWhereInput | boolean
+  connect?: Prisma.VendorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VendorUpdateToOneWithWhereWithoutUserInput, Prisma.VendorUpdateWithoutUserInput>, Prisma.VendorUncheckedUpdateWithoutUserInput>
+}
+
+export type VendorUncheckedUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.VendorCreateWithoutUserInput, Prisma.VendorUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.VendorCreateOrConnectWithoutUserInput
+  upsert?: Prisma.VendorUpsertWithoutUserInput
+  disconnect?: Prisma.VendorWhereInput | boolean
+  delete?: Prisma.VendorWhereInput | boolean
+  connect?: Prisma.VendorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VendorUpdateToOneWithWhereWithoutUserInput, Prisma.VendorUpdateWithoutUserInput>, Prisma.VendorUncheckedUpdateWithoutUserInput>
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type VendorCreateNestedOneWithoutRfpVendorsInput = {
@@ -393,11 +512,76 @@ export type VendorUpdateOneRequiredWithoutProposalsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.VendorUpdateToOneWithWhereWithoutProposalsInput, Prisma.VendorUpdateWithoutProposalsInput>, Prisma.VendorUncheckedUpdateWithoutProposalsInput>
 }
 
+export type VendorCreateWithoutUserInput = {
+  name: string
+  email: string
+  contactPerson?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  proposals?: Prisma.ProposalCreateNestedManyWithoutVendorInput
+  rfpVendors?: Prisma.RfpVendorCreateNestedManyWithoutVendorInput
+}
+
+export type VendorUncheckedCreateWithoutUserInput = {
+  id?: number
+  name: string
+  email: string
+  contactPerson?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutVendorInput
+  rfpVendors?: Prisma.RfpVendorUncheckedCreateNestedManyWithoutVendorInput
+}
+
+export type VendorCreateOrConnectWithoutUserInput = {
+  where: Prisma.VendorWhereUniqueInput
+  create: Prisma.XOR<Prisma.VendorCreateWithoutUserInput, Prisma.VendorUncheckedCreateWithoutUserInput>
+}
+
+export type VendorUpsertWithoutUserInput = {
+  update: Prisma.XOR<Prisma.VendorUpdateWithoutUserInput, Prisma.VendorUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.VendorCreateWithoutUserInput, Prisma.VendorUncheckedCreateWithoutUserInput>
+  where?: Prisma.VendorWhereInput
+}
+
+export type VendorUpdateToOneWithWhereWithoutUserInput = {
+  where?: Prisma.VendorWhereInput
+  data: Prisma.XOR<Prisma.VendorUpdateWithoutUserInput, Prisma.VendorUncheckedUpdateWithoutUserInput>
+}
+
+export type VendorUpdateWithoutUserInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  proposals?: Prisma.ProposalUpdateManyWithoutVendorNestedInput
+  rfpVendors?: Prisma.RfpVendorUpdateManyWithoutVendorNestedInput
+}
+
+export type VendorUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  proposals?: Prisma.ProposalUncheckedUpdateManyWithoutVendorNestedInput
+  rfpVendors?: Prisma.RfpVendorUncheckedUpdateManyWithoutVendorNestedInput
+}
+
 export type VendorCreateWithoutRfpVendorsInput = {
   name: string
   email: string
   contactPerson?: string | null
   notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user?: Prisma.UserCreateNestedOneWithoutVendorInput
   proposals?: Prisma.ProposalCreateNestedManyWithoutVendorInput
 }
 
@@ -407,6 +591,9 @@ export type VendorUncheckedCreateWithoutRfpVendorsInput = {
   email: string
   contactPerson?: string | null
   notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  userId?: number | null
   proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutVendorInput
 }
 
@@ -431,6 +618,9 @@ export type VendorUpdateWithoutRfpVendorsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   contactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneWithoutVendorNestedInput
   proposals?: Prisma.ProposalUpdateManyWithoutVendorNestedInput
 }
 
@@ -440,6 +630,9 @@ export type VendorUncheckedUpdateWithoutRfpVendorsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   contactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   proposals?: Prisma.ProposalUncheckedUpdateManyWithoutVendorNestedInput
 }
 
@@ -448,6 +641,9 @@ export type VendorCreateWithoutProposalsInput = {
   email: string
   contactPerson?: string | null
   notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user?: Prisma.UserCreateNestedOneWithoutVendorInput
   rfpVendors?: Prisma.RfpVendorCreateNestedManyWithoutVendorInput
 }
 
@@ -457,6 +653,9 @@ export type VendorUncheckedCreateWithoutProposalsInput = {
   email: string
   contactPerson?: string | null
   notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  userId?: number | null
   rfpVendors?: Prisma.RfpVendorUncheckedCreateNestedManyWithoutVendorInput
 }
 
@@ -481,6 +680,9 @@ export type VendorUpdateWithoutProposalsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   contactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneWithoutVendorNestedInput
   rfpVendors?: Prisma.RfpVendorUpdateManyWithoutVendorNestedInput
 }
 
@@ -490,6 +692,9 @@ export type VendorUncheckedUpdateWithoutProposalsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   contactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   rfpVendors?: Prisma.RfpVendorUncheckedUpdateManyWithoutVendorNestedInput
 }
 
@@ -539,6 +744,10 @@ export type VendorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   email?: boolean
   contactPerson?: boolean
   notes?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  userId?: boolean
+  user?: boolean | Prisma.Vendor$userArgs<ExtArgs>
   proposals?: boolean | Prisma.Vendor$proposalsArgs<ExtArgs>
   rfpVendors?: boolean | Prisma.Vendor$rfpVendorsArgs<ExtArgs>
   _count?: boolean | Prisma.VendorCountOutputTypeDefaultArgs<ExtArgs>
@@ -550,6 +759,10 @@ export type VendorSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   email?: boolean
   contactPerson?: boolean
   notes?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  userId?: boolean
+  user?: boolean | Prisma.Vendor$userArgs<ExtArgs>
 }, ExtArgs["result"]["vendor"]>
 
 export type VendorSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -558,6 +771,10 @@ export type VendorSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   email?: boolean
   contactPerson?: boolean
   notes?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  userId?: boolean
+  user?: boolean | Prisma.Vendor$userArgs<ExtArgs>
 }, ExtArgs["result"]["vendor"]>
 
 export type VendorSelectScalar = {
@@ -566,20 +783,29 @@ export type VendorSelectScalar = {
   email?: boolean
   contactPerson?: boolean
   notes?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  userId?: boolean
 }
 
-export type VendorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "contactPerson" | "notes", ExtArgs["result"]["vendor"]>
+export type VendorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "contactPerson" | "notes" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["vendor"]>
 export type VendorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.Vendor$userArgs<ExtArgs>
   proposals?: boolean | Prisma.Vendor$proposalsArgs<ExtArgs>
   rfpVendors?: boolean | Prisma.Vendor$rfpVendorsArgs<ExtArgs>
   _count?: boolean | Prisma.VendorCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type VendorIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type VendorIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type VendorIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.Vendor$userArgs<ExtArgs>
+}
+export type VendorIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.Vendor$userArgs<ExtArgs>
+}
 
 export type $VendorPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Vendor"
   objects: {
+    user: Prisma.$UserPayload<ExtArgs> | null
     proposals: Prisma.$ProposalPayload<ExtArgs>[]
     rfpVendors: Prisma.$RfpVendorPayload<ExtArgs>[]
   }
@@ -589,6 +815,9 @@ export type $VendorPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     email: string
     contactPerson: string | null
     notes: string | null
+    createdAt: Date
+    updatedAt: Date
+    userId: number | null
   }, ExtArgs["result"]["vendor"]>
   composites: {}
 }
@@ -983,6 +1212,7 @@ readonly fields: VendorFieldRefs;
  */
 export interface Prisma__VendorClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  user<T extends Prisma.Vendor$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Vendor$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   proposals<T extends Prisma.Vendor$proposalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Vendor$proposalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProposalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   rfpVendors<T extends Prisma.Vendor$rfpVendorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Vendor$rfpVendorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RfpVendorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1019,6 +1249,9 @@ export interface VendorFieldRefs {
   readonly email: Prisma.FieldRef<"Vendor", 'String'>
   readonly contactPerson: Prisma.FieldRef<"Vendor", 'String'>
   readonly notes: Prisma.FieldRef<"Vendor", 'String'>
+  readonly createdAt: Prisma.FieldRef<"Vendor", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Vendor", 'DateTime'>
+  readonly userId: Prisma.FieldRef<"Vendor", 'Int'>
 }
     
 
@@ -1268,6 +1501,10 @@ export type VendorCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensio
    */
   data: Prisma.VendorCreateManyInput | Prisma.VendorCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VendorIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1338,6 +1575,10 @@ export type VendorUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many Vendors to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VendorIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1404,6 +1645,25 @@ export type VendorDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Vendors to delete.
    */
   limit?: number
+}
+
+/**
+ * Vendor.user
+ */
+export type Vendor$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

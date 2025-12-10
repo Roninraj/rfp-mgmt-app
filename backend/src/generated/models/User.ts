@@ -297,6 +297,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   createdRfps?: Prisma.RfpListRelationFilter
+  vendor?: Prisma.XOR<Prisma.VendorNullableScalarRelationFilter, Prisma.VendorWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
@@ -316,6 +317,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdRfps?: Prisma.RfpOrderByRelationAggregateInput
+  vendor?: Prisma.VendorOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -338,6 +340,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   createdRfps?: Prisma.RfpListRelationFilter
+  vendor?: Prisma.XOR<Prisma.VendorNullableScalarRelationFilter, Prisma.VendorWhereInput> | null
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -400,6 +403,7 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdRfps?: Prisma.RfpCreateNestedManyWithoutRequesterInput
+  vendor?: Prisma.VendorCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -419,6 +423,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdRfps?: Prisma.RfpUncheckedCreateNestedManyWithoutRequesterInput
+  vendor?: Prisma.VendorUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -437,6 +442,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdRfps?: Prisma.RfpUpdateManyWithoutRequesterNestedInput
+  vendor?: Prisma.VendorUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -456,6 +462,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdRfps?: Prisma.RfpUncheckedUpdateManyWithoutRequesterNestedInput
+  vendor?: Prisma.VendorUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -602,6 +609,22 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type UserCreateNestedOneWithoutVendorInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutVendorInput, Prisma.UserUncheckedCreateWithoutVendorInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutVendorInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutVendorNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutVendorInput, Prisma.UserUncheckedCreateWithoutVendorInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutVendorInput
+  upsert?: Prisma.UserUpsertWithoutVendorInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutVendorInput, Prisma.UserUpdateWithoutVendorInput>, Prisma.UserUncheckedUpdateWithoutVendorInput>
+}
+
 export type UserCreateNestedOneWithoutCreatedRfpsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedRfpsInput, Prisma.UserUncheckedCreateWithoutCreatedRfpsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedRfpsInput
@@ -616,6 +639,96 @@ export type UserUpdateOneWithoutCreatedRfpsNestedInput = {
   delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedRfpsInput, Prisma.UserUpdateWithoutCreatedRfpsInput>, Prisma.UserUncheckedUpdateWithoutCreatedRfpsInput>
+}
+
+export type UserCreateWithoutVendorInput = {
+  email: string
+  password: string
+  name: string
+  role?: string
+  companyName?: string | null
+  phone?: string | null
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  country?: string | null
+  postalCode?: string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdRfps?: Prisma.RfpCreateNestedManyWithoutRequesterInput
+}
+
+export type UserUncheckedCreateWithoutVendorInput = {
+  id?: number
+  email: string
+  password: string
+  name: string
+  role?: string
+  companyName?: string | null
+  phone?: string | null
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  country?: string | null
+  postalCode?: string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdRfps?: Prisma.RfpUncheckedCreateNestedManyWithoutRequesterInput
+}
+
+export type UserCreateOrConnectWithoutVendorInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutVendorInput, Prisma.UserUncheckedCreateWithoutVendorInput>
+}
+
+export type UserUpsertWithoutVendorInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutVendorInput, Prisma.UserUncheckedUpdateWithoutVendorInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutVendorInput, Prisma.UserUncheckedCreateWithoutVendorInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutVendorInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutVendorInput, Prisma.UserUncheckedUpdateWithoutVendorInput>
+}
+
+export type UserUpdateWithoutVendorInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdRfps?: Prisma.RfpUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserUncheckedUpdateWithoutVendorInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdRfps?: Prisma.RfpUncheckedUpdateManyWithoutRequesterNestedInput
 }
 
 export type UserCreateWithoutCreatedRfpsInput = {
@@ -633,6 +746,7 @@ export type UserCreateWithoutCreatedRfpsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  vendor?: Prisma.VendorCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCreatedRfpsInput = {
@@ -651,6 +765,7 @@ export type UserUncheckedCreateWithoutCreatedRfpsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  vendor?: Prisma.VendorUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCreatedRfpsInput = {
@@ -684,6 +799,7 @@ export type UserUpdateWithoutCreatedRfpsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vendor?: Prisma.VendorUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedRfpsInput = {
@@ -702,6 +818,7 @@ export type UserUncheckedUpdateWithoutCreatedRfpsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vendor?: Prisma.VendorUncheckedUpdateOneWithoutUserNestedInput
 }
 
 
@@ -752,6 +869,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   createdRfps?: boolean | Prisma.User$createdRfpsArgs<ExtArgs>
+  vendor?: boolean | Prisma.User$vendorArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -812,6 +930,7 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "name" | "role" | "companyName" | "phone" | "address" | "city" | "state" | "country" | "postalCode" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   createdRfps?: boolean | Prisma.User$createdRfpsArgs<ExtArgs>
+  vendor?: boolean | Prisma.User$vendorArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -821,6 +940,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     createdRfps: Prisma.$RfpPayload<ExtArgs>[]
+    vendor: Prisma.$VendorPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1233,6 +1353,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   createdRfps<T extends Prisma.User$createdRfpsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdRfpsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RfpPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  vendor<T extends Prisma.User$vendorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$vendorArgs<ExtArgs>>): Prisma.Prisma__VendorClient<runtime.Types.Result.GetResult<Prisma.$VendorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1686,6 +1807,25 @@ export type User$createdRfpsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.RfpScalarFieldEnum | Prisma.RfpScalarFieldEnum[]
+}
+
+/**
+ * User.vendor
+ */
+export type User$vendorArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Vendor
+   */
+  select?: Prisma.VendorSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Vendor
+   */
+  omit?: Prisma.VendorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VendorInclude<ExtArgs> | null
+  where?: Prisma.VendorWhereInput
 }
 
 /**

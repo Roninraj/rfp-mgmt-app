@@ -29,8 +29,11 @@ export function Navbar() {
               >
                 Dashboard
               </Link>
-              <span className="text-sm text-slate-600">
+              <span className="text-sm text-slate-600 mr-3 ml-3 uppercase">
                 {user.name}
+                <span  className="text-sm text-slate-600  mr-3 ml-3 uppercase">
+                <strong >{user.role}</strong>
+              </span>
               </span>
               <button
                 onClick={handleLogout}

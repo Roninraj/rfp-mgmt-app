@@ -43,6 +43,7 @@ export type RfpVendorMinAggregateOutputType = {
   rfpId: number | null
   vendorId: number | null
   status: string | null
+  createdAt: Date | null
 }
 
 export type RfpVendorMaxAggregateOutputType = {
@@ -50,6 +51,7 @@ export type RfpVendorMaxAggregateOutputType = {
   rfpId: number | null
   vendorId: number | null
   status: string | null
+  createdAt: Date | null
 }
 
 export type RfpVendorCountAggregateOutputType = {
@@ -57,6 +59,7 @@ export type RfpVendorCountAggregateOutputType = {
   rfpId: number
   vendorId: number
   status: number
+  createdAt: number
   _all: number
 }
 
@@ -78,6 +81,7 @@ export type RfpVendorMinAggregateInputType = {
   rfpId?: true
   vendorId?: true
   status?: true
+  createdAt?: true
 }
 
 export type RfpVendorMaxAggregateInputType = {
@@ -85,6 +89,7 @@ export type RfpVendorMaxAggregateInputType = {
   rfpId?: true
   vendorId?: true
   status?: true
+  createdAt?: true
 }
 
 export type RfpVendorCountAggregateInputType = {
@@ -92,6 +97,7 @@ export type RfpVendorCountAggregateInputType = {
   rfpId?: true
   vendorId?: true
   status?: true
+  createdAt?: true
   _all?: true
 }
 
@@ -186,6 +192,7 @@ export type RfpVendorGroupByOutputType = {
   rfpId: number
   vendorId: number
   status: string
+  createdAt: Date
   _count: RfpVendorCountAggregateOutputType | null
   _avg: RfpVendorAvgAggregateOutputType | null
   _sum: RfpVendorSumAggregateOutputType | null
@@ -216,6 +223,7 @@ export type RfpVendorWhereInput = {
   rfpId?: Prisma.IntFilter<"RfpVendor"> | number
   vendorId?: Prisma.IntFilter<"RfpVendor"> | number
   status?: Prisma.StringFilter<"RfpVendor"> | string
+  createdAt?: Prisma.DateTimeFilter<"RfpVendor"> | Date | string
   rfp?: Prisma.XOR<Prisma.RfpScalarRelationFilter, Prisma.RfpWhereInput>
   vendor?: Prisma.XOR<Prisma.VendorScalarRelationFilter, Prisma.VendorWhereInput>
 }
@@ -225,27 +233,31 @@ export type RfpVendorOrderByWithRelationInput = {
   rfpId?: Prisma.SortOrder
   vendorId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
   rfp?: Prisma.RfpOrderByWithRelationInput
   vendor?: Prisma.VendorOrderByWithRelationInput
 }
 
 export type RfpVendorWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  rfpId_vendorId?: Prisma.RfpVendorRfpIdVendorIdCompoundUniqueInput
   AND?: Prisma.RfpVendorWhereInput | Prisma.RfpVendorWhereInput[]
   OR?: Prisma.RfpVendorWhereInput[]
   NOT?: Prisma.RfpVendorWhereInput | Prisma.RfpVendorWhereInput[]
   rfpId?: Prisma.IntFilter<"RfpVendor"> | number
   vendorId?: Prisma.IntFilter<"RfpVendor"> | number
   status?: Prisma.StringFilter<"RfpVendor"> | string
+  createdAt?: Prisma.DateTimeFilter<"RfpVendor"> | Date | string
   rfp?: Prisma.XOR<Prisma.RfpScalarRelationFilter, Prisma.RfpWhereInput>
   vendor?: Prisma.XOR<Prisma.VendorScalarRelationFilter, Prisma.VendorWhereInput>
-}, "id">
+}, "id" | "rfpId_vendorId">
 
 export type RfpVendorOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   rfpId?: Prisma.SortOrder
   vendorId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
   _count?: Prisma.RfpVendorCountOrderByAggregateInput
   _avg?: Prisma.RfpVendorAvgOrderByAggregateInput
   _max?: Prisma.RfpVendorMaxOrderByAggregateInput
@@ -261,10 +273,12 @@ export type RfpVendorScalarWhereWithAggregatesInput = {
   rfpId?: Prisma.IntWithAggregatesFilter<"RfpVendor"> | number
   vendorId?: Prisma.IntWithAggregatesFilter<"RfpVendor"> | number
   status?: Prisma.StringWithAggregatesFilter<"RfpVendor"> | string
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"RfpVendor"> | Date | string
 }
 
 export type RfpVendorCreateInput = {
   status?: string
+  createdAt?: Date | string
   rfp: Prisma.RfpCreateNestedOneWithoutRfpVendorsInput
   vendor: Prisma.VendorCreateNestedOneWithoutRfpVendorsInput
 }
@@ -274,10 +288,12 @@ export type RfpVendorUncheckedCreateInput = {
   rfpId: number
   vendorId: number
   status?: string
+  createdAt?: Date | string
 }
 
 export type RfpVendorUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rfp?: Prisma.RfpUpdateOneRequiredWithoutRfpVendorsNestedInput
   vendor?: Prisma.VendorUpdateOneRequiredWithoutRfpVendorsNestedInput
 }
@@ -287,6 +303,7 @@ export type RfpVendorUncheckedUpdateInput = {
   rfpId?: Prisma.IntFieldUpdateOperationsInput | number
   vendorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RfpVendorCreateManyInput = {
@@ -294,10 +311,12 @@ export type RfpVendorCreateManyInput = {
   rfpId: number
   vendorId: number
   status?: string
+  createdAt?: Date | string
 }
 
 export type RfpVendorUpdateManyMutationInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RfpVendorUncheckedUpdateManyInput = {
@@ -305,6 +324,7 @@ export type RfpVendorUncheckedUpdateManyInput = {
   rfpId?: Prisma.IntFieldUpdateOperationsInput | number
   vendorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RfpVendorListRelationFilter = {
@@ -317,11 +337,17 @@ export type RfpVendorOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type RfpVendorRfpIdVendorIdCompoundUniqueInput = {
+  rfpId: number
+  vendorId: number
+}
+
 export type RfpVendorCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   rfpId?: Prisma.SortOrder
   vendorId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
 }
 
 export type RfpVendorAvgOrderByAggregateInput = {
@@ -335,6 +361,7 @@ export type RfpVendorMaxOrderByAggregateInput = {
   rfpId?: Prisma.SortOrder
   vendorId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
 }
 
 export type RfpVendorMinOrderByAggregateInput = {
@@ -342,54 +369,13 @@ export type RfpVendorMinOrderByAggregateInput = {
   rfpId?: Prisma.SortOrder
   vendorId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
 }
 
 export type RfpVendorSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   rfpId?: Prisma.SortOrder
   vendorId?: Prisma.SortOrder
-}
-
-export type RfpVendorCreateNestedManyWithoutRfpInput = {
-  create?: Prisma.XOR<Prisma.RfpVendorCreateWithoutRfpInput, Prisma.RfpVendorUncheckedCreateWithoutRfpInput> | Prisma.RfpVendorCreateWithoutRfpInput[] | Prisma.RfpVendorUncheckedCreateWithoutRfpInput[]
-  connectOrCreate?: Prisma.RfpVendorCreateOrConnectWithoutRfpInput | Prisma.RfpVendorCreateOrConnectWithoutRfpInput[]
-  createMany?: Prisma.RfpVendorCreateManyRfpInputEnvelope
-  connect?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
-}
-
-export type RfpVendorUncheckedCreateNestedManyWithoutRfpInput = {
-  create?: Prisma.XOR<Prisma.RfpVendorCreateWithoutRfpInput, Prisma.RfpVendorUncheckedCreateWithoutRfpInput> | Prisma.RfpVendorCreateWithoutRfpInput[] | Prisma.RfpVendorUncheckedCreateWithoutRfpInput[]
-  connectOrCreate?: Prisma.RfpVendorCreateOrConnectWithoutRfpInput | Prisma.RfpVendorCreateOrConnectWithoutRfpInput[]
-  createMany?: Prisma.RfpVendorCreateManyRfpInputEnvelope
-  connect?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
-}
-
-export type RfpVendorUpdateManyWithoutRfpNestedInput = {
-  create?: Prisma.XOR<Prisma.RfpVendorCreateWithoutRfpInput, Prisma.RfpVendorUncheckedCreateWithoutRfpInput> | Prisma.RfpVendorCreateWithoutRfpInput[] | Prisma.RfpVendorUncheckedCreateWithoutRfpInput[]
-  connectOrCreate?: Prisma.RfpVendorCreateOrConnectWithoutRfpInput | Prisma.RfpVendorCreateOrConnectWithoutRfpInput[]
-  upsert?: Prisma.RfpVendorUpsertWithWhereUniqueWithoutRfpInput | Prisma.RfpVendorUpsertWithWhereUniqueWithoutRfpInput[]
-  createMany?: Prisma.RfpVendorCreateManyRfpInputEnvelope
-  set?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
-  disconnect?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
-  delete?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
-  connect?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
-  update?: Prisma.RfpVendorUpdateWithWhereUniqueWithoutRfpInput | Prisma.RfpVendorUpdateWithWhereUniqueWithoutRfpInput[]
-  updateMany?: Prisma.RfpVendorUpdateManyWithWhereWithoutRfpInput | Prisma.RfpVendorUpdateManyWithWhereWithoutRfpInput[]
-  deleteMany?: Prisma.RfpVendorScalarWhereInput | Prisma.RfpVendorScalarWhereInput[]
-}
-
-export type RfpVendorUncheckedUpdateManyWithoutRfpNestedInput = {
-  create?: Prisma.XOR<Prisma.RfpVendorCreateWithoutRfpInput, Prisma.RfpVendorUncheckedCreateWithoutRfpInput> | Prisma.RfpVendorCreateWithoutRfpInput[] | Prisma.RfpVendorUncheckedCreateWithoutRfpInput[]
-  connectOrCreate?: Prisma.RfpVendorCreateOrConnectWithoutRfpInput | Prisma.RfpVendorCreateOrConnectWithoutRfpInput[]
-  upsert?: Prisma.RfpVendorUpsertWithWhereUniqueWithoutRfpInput | Prisma.RfpVendorUpsertWithWhereUniqueWithoutRfpInput[]
-  createMany?: Prisma.RfpVendorCreateManyRfpInputEnvelope
-  set?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
-  disconnect?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
-  delete?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
-  connect?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
-  update?: Prisma.RfpVendorUpdateWithWhereUniqueWithoutRfpInput | Prisma.RfpVendorUpdateWithWhereUniqueWithoutRfpInput[]
-  updateMany?: Prisma.RfpVendorUpdateManyWithWhereWithoutRfpInput | Prisma.RfpVendorUpdateManyWithWhereWithoutRfpInput[]
-  deleteMany?: Prisma.RfpVendorScalarWhereInput | Prisma.RfpVendorScalarWhereInput[]
 }
 
 export type RfpVendorCreateNestedManyWithoutVendorInput = {
@@ -434,55 +420,51 @@ export type RfpVendorUncheckedUpdateManyWithoutVendorNestedInput = {
   deleteMany?: Prisma.RfpVendorScalarWhereInput | Prisma.RfpVendorScalarWhereInput[]
 }
 
-export type RfpVendorCreateWithoutRfpInput = {
-  status?: string
-  vendor: Prisma.VendorCreateNestedOneWithoutRfpVendorsInput
+export type RfpVendorCreateNestedManyWithoutRfpInput = {
+  create?: Prisma.XOR<Prisma.RfpVendorCreateWithoutRfpInput, Prisma.RfpVendorUncheckedCreateWithoutRfpInput> | Prisma.RfpVendorCreateWithoutRfpInput[] | Prisma.RfpVendorUncheckedCreateWithoutRfpInput[]
+  connectOrCreate?: Prisma.RfpVendorCreateOrConnectWithoutRfpInput | Prisma.RfpVendorCreateOrConnectWithoutRfpInput[]
+  createMany?: Prisma.RfpVendorCreateManyRfpInputEnvelope
+  connect?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
 }
 
-export type RfpVendorUncheckedCreateWithoutRfpInput = {
-  id?: number
-  vendorId: number
-  status?: string
+export type RfpVendorUncheckedCreateNestedManyWithoutRfpInput = {
+  create?: Prisma.XOR<Prisma.RfpVendorCreateWithoutRfpInput, Prisma.RfpVendorUncheckedCreateWithoutRfpInput> | Prisma.RfpVendorCreateWithoutRfpInput[] | Prisma.RfpVendorUncheckedCreateWithoutRfpInput[]
+  connectOrCreate?: Prisma.RfpVendorCreateOrConnectWithoutRfpInput | Prisma.RfpVendorCreateOrConnectWithoutRfpInput[]
+  createMany?: Prisma.RfpVendorCreateManyRfpInputEnvelope
+  connect?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
 }
 
-export type RfpVendorCreateOrConnectWithoutRfpInput = {
-  where: Prisma.RfpVendorWhereUniqueInput
-  create: Prisma.XOR<Prisma.RfpVendorCreateWithoutRfpInput, Prisma.RfpVendorUncheckedCreateWithoutRfpInput>
+export type RfpVendorUpdateManyWithoutRfpNestedInput = {
+  create?: Prisma.XOR<Prisma.RfpVendorCreateWithoutRfpInput, Prisma.RfpVendorUncheckedCreateWithoutRfpInput> | Prisma.RfpVendorCreateWithoutRfpInput[] | Prisma.RfpVendorUncheckedCreateWithoutRfpInput[]
+  connectOrCreate?: Prisma.RfpVendorCreateOrConnectWithoutRfpInput | Prisma.RfpVendorCreateOrConnectWithoutRfpInput[]
+  upsert?: Prisma.RfpVendorUpsertWithWhereUniqueWithoutRfpInput | Prisma.RfpVendorUpsertWithWhereUniqueWithoutRfpInput[]
+  createMany?: Prisma.RfpVendorCreateManyRfpInputEnvelope
+  set?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
+  disconnect?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
+  delete?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
+  connect?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
+  update?: Prisma.RfpVendorUpdateWithWhereUniqueWithoutRfpInput | Prisma.RfpVendorUpdateWithWhereUniqueWithoutRfpInput[]
+  updateMany?: Prisma.RfpVendorUpdateManyWithWhereWithoutRfpInput | Prisma.RfpVendorUpdateManyWithWhereWithoutRfpInput[]
+  deleteMany?: Prisma.RfpVendorScalarWhereInput | Prisma.RfpVendorScalarWhereInput[]
 }
 
-export type RfpVendorCreateManyRfpInputEnvelope = {
-  data: Prisma.RfpVendorCreateManyRfpInput | Prisma.RfpVendorCreateManyRfpInput[]
-  skipDuplicates?: boolean
-}
-
-export type RfpVendorUpsertWithWhereUniqueWithoutRfpInput = {
-  where: Prisma.RfpVendorWhereUniqueInput
-  update: Prisma.XOR<Prisma.RfpVendorUpdateWithoutRfpInput, Prisma.RfpVendorUncheckedUpdateWithoutRfpInput>
-  create: Prisma.XOR<Prisma.RfpVendorCreateWithoutRfpInput, Prisma.RfpVendorUncheckedCreateWithoutRfpInput>
-}
-
-export type RfpVendorUpdateWithWhereUniqueWithoutRfpInput = {
-  where: Prisma.RfpVendorWhereUniqueInput
-  data: Prisma.XOR<Prisma.RfpVendorUpdateWithoutRfpInput, Prisma.RfpVendorUncheckedUpdateWithoutRfpInput>
-}
-
-export type RfpVendorUpdateManyWithWhereWithoutRfpInput = {
-  where: Prisma.RfpVendorScalarWhereInput
-  data: Prisma.XOR<Prisma.RfpVendorUpdateManyMutationInput, Prisma.RfpVendorUncheckedUpdateManyWithoutRfpInput>
-}
-
-export type RfpVendorScalarWhereInput = {
-  AND?: Prisma.RfpVendorScalarWhereInput | Prisma.RfpVendorScalarWhereInput[]
-  OR?: Prisma.RfpVendorScalarWhereInput[]
-  NOT?: Prisma.RfpVendorScalarWhereInput | Prisma.RfpVendorScalarWhereInput[]
-  id?: Prisma.IntFilter<"RfpVendor"> | number
-  rfpId?: Prisma.IntFilter<"RfpVendor"> | number
-  vendorId?: Prisma.IntFilter<"RfpVendor"> | number
-  status?: Prisma.StringFilter<"RfpVendor"> | string
+export type RfpVendorUncheckedUpdateManyWithoutRfpNestedInput = {
+  create?: Prisma.XOR<Prisma.RfpVendorCreateWithoutRfpInput, Prisma.RfpVendorUncheckedCreateWithoutRfpInput> | Prisma.RfpVendorCreateWithoutRfpInput[] | Prisma.RfpVendorUncheckedCreateWithoutRfpInput[]
+  connectOrCreate?: Prisma.RfpVendorCreateOrConnectWithoutRfpInput | Prisma.RfpVendorCreateOrConnectWithoutRfpInput[]
+  upsert?: Prisma.RfpVendorUpsertWithWhereUniqueWithoutRfpInput | Prisma.RfpVendorUpsertWithWhereUniqueWithoutRfpInput[]
+  createMany?: Prisma.RfpVendorCreateManyRfpInputEnvelope
+  set?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
+  disconnect?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
+  delete?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
+  connect?: Prisma.RfpVendorWhereUniqueInput | Prisma.RfpVendorWhereUniqueInput[]
+  update?: Prisma.RfpVendorUpdateWithWhereUniqueWithoutRfpInput | Prisma.RfpVendorUpdateWithWhereUniqueWithoutRfpInput[]
+  updateMany?: Prisma.RfpVendorUpdateManyWithWhereWithoutRfpInput | Prisma.RfpVendorUpdateManyWithWhereWithoutRfpInput[]
+  deleteMany?: Prisma.RfpVendorScalarWhereInput | Prisma.RfpVendorScalarWhereInput[]
 }
 
 export type RfpVendorCreateWithoutVendorInput = {
   status?: string
+  createdAt?: Date | string
   rfp: Prisma.RfpCreateNestedOneWithoutRfpVendorsInput
 }
 
@@ -490,6 +472,7 @@ export type RfpVendorUncheckedCreateWithoutVendorInput = {
   id?: number
   rfpId: number
   status?: string
+  createdAt?: Date | string
 }
 
 export type RfpVendorCreateOrConnectWithoutVendorInput = {
@@ -518,37 +501,66 @@ export type RfpVendorUpdateManyWithWhereWithoutVendorInput = {
   data: Prisma.XOR<Prisma.RfpVendorUpdateManyMutationInput, Prisma.RfpVendorUncheckedUpdateManyWithoutVendorInput>
 }
 
-export type RfpVendorCreateManyRfpInput = {
+export type RfpVendorScalarWhereInput = {
+  AND?: Prisma.RfpVendorScalarWhereInput | Prisma.RfpVendorScalarWhereInput[]
+  OR?: Prisma.RfpVendorScalarWhereInput[]
+  NOT?: Prisma.RfpVendorScalarWhereInput | Prisma.RfpVendorScalarWhereInput[]
+  id?: Prisma.IntFilter<"RfpVendor"> | number
+  rfpId?: Prisma.IntFilter<"RfpVendor"> | number
+  vendorId?: Prisma.IntFilter<"RfpVendor"> | number
+  status?: Prisma.StringFilter<"RfpVendor"> | string
+  createdAt?: Prisma.DateTimeFilter<"RfpVendor"> | Date | string
+}
+
+export type RfpVendorCreateWithoutRfpInput = {
+  status?: string
+  createdAt?: Date | string
+  vendor: Prisma.VendorCreateNestedOneWithoutRfpVendorsInput
+}
+
+export type RfpVendorUncheckedCreateWithoutRfpInput = {
   id?: number
   vendorId: number
   status?: string
+  createdAt?: Date | string
 }
 
-export type RfpVendorUpdateWithoutRfpInput = {
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  vendor?: Prisma.VendorUpdateOneRequiredWithoutRfpVendorsNestedInput
+export type RfpVendorCreateOrConnectWithoutRfpInput = {
+  where: Prisma.RfpVendorWhereUniqueInput
+  create: Prisma.XOR<Prisma.RfpVendorCreateWithoutRfpInput, Prisma.RfpVendorUncheckedCreateWithoutRfpInput>
 }
 
-export type RfpVendorUncheckedUpdateWithoutRfpInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  vendorId?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+export type RfpVendorCreateManyRfpInputEnvelope = {
+  data: Prisma.RfpVendorCreateManyRfpInput | Prisma.RfpVendorCreateManyRfpInput[]
+  skipDuplicates?: boolean
 }
 
-export type RfpVendorUncheckedUpdateManyWithoutRfpInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  vendorId?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+export type RfpVendorUpsertWithWhereUniqueWithoutRfpInput = {
+  where: Prisma.RfpVendorWhereUniqueInput
+  update: Prisma.XOR<Prisma.RfpVendorUpdateWithoutRfpInput, Prisma.RfpVendorUncheckedUpdateWithoutRfpInput>
+  create: Prisma.XOR<Prisma.RfpVendorCreateWithoutRfpInput, Prisma.RfpVendorUncheckedCreateWithoutRfpInput>
+}
+
+export type RfpVendorUpdateWithWhereUniqueWithoutRfpInput = {
+  where: Prisma.RfpVendorWhereUniqueInput
+  data: Prisma.XOR<Prisma.RfpVendorUpdateWithoutRfpInput, Prisma.RfpVendorUncheckedUpdateWithoutRfpInput>
+}
+
+export type RfpVendorUpdateManyWithWhereWithoutRfpInput = {
+  where: Prisma.RfpVendorScalarWhereInput
+  data: Prisma.XOR<Prisma.RfpVendorUpdateManyMutationInput, Prisma.RfpVendorUncheckedUpdateManyWithoutRfpInput>
 }
 
 export type RfpVendorCreateManyVendorInput = {
   id?: number
   rfpId: number
   status?: string
+  createdAt?: Date | string
 }
 
 export type RfpVendorUpdateWithoutVendorInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rfp?: Prisma.RfpUpdateOneRequiredWithoutRfpVendorsNestedInput
 }
 
@@ -556,12 +568,41 @@ export type RfpVendorUncheckedUpdateWithoutVendorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   rfpId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RfpVendorUncheckedUpdateManyWithoutVendorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   rfpId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type RfpVendorCreateManyRfpInput = {
+  id?: number
+  vendorId: number
+  status?: string
+  createdAt?: Date | string
+}
+
+export type RfpVendorUpdateWithoutRfpInput = {
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vendor?: Prisma.VendorUpdateOneRequiredWithoutRfpVendorsNestedInput
+}
+
+export type RfpVendorUncheckedUpdateWithoutRfpInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  vendorId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type RfpVendorUncheckedUpdateManyWithoutRfpInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  vendorId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -571,6 +612,7 @@ export type RfpVendorSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   rfpId?: boolean
   vendorId?: boolean
   status?: boolean
+  createdAt?: boolean
   rfp?: boolean | Prisma.RfpDefaultArgs<ExtArgs>
   vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rfpVendor"]>
@@ -580,6 +622,7 @@ export type RfpVendorSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   rfpId?: boolean
   vendorId?: boolean
   status?: boolean
+  createdAt?: boolean
   rfp?: boolean | Prisma.RfpDefaultArgs<ExtArgs>
   vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rfpVendor"]>
@@ -589,6 +632,7 @@ export type RfpVendorSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   rfpId?: boolean
   vendorId?: boolean
   status?: boolean
+  createdAt?: boolean
   rfp?: boolean | Prisma.RfpDefaultArgs<ExtArgs>
   vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rfpVendor"]>
@@ -598,9 +642,10 @@ export type RfpVendorSelectScalar = {
   rfpId?: boolean
   vendorId?: boolean
   status?: boolean
+  createdAt?: boolean
 }
 
-export type RfpVendorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "rfpId" | "vendorId" | "status", ExtArgs["result"]["rfpVendor"]>
+export type RfpVendorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "rfpId" | "vendorId" | "status" | "createdAt", ExtArgs["result"]["rfpVendor"]>
 export type RfpVendorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rfp?: boolean | Prisma.RfpDefaultArgs<ExtArgs>
   vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
@@ -625,6 +670,7 @@ export type $RfpVendorPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     rfpId: number
     vendorId: number
     status: string
+    createdAt: Date
   }, ExtArgs["result"]["rfpVendor"]>
   composites: {}
 }
@@ -1054,6 +1100,7 @@ export interface RfpVendorFieldRefs {
   readonly rfpId: Prisma.FieldRef<"RfpVendor", 'Int'>
   readonly vendorId: Prisma.FieldRef<"RfpVendor", 'Int'>
   readonly status: Prisma.FieldRef<"RfpVendor", 'String'>
+  readonly createdAt: Prisma.FieldRef<"RfpVendor", 'DateTime'>
 }
     
 

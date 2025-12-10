@@ -52,8 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  Rfp: 'Rfp',
   Vendor: 'Vendor',
+  Rfp: 'Rfp',
   RfpVendor: 'RfpVendor',
   Proposal: 'Proposal',
   ProposalScore: 'ProposalScore'
@@ -96,6 +96,20 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const VendorScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  contactPerson: 'contactPerson',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+} as const
+
+export type VendorScalarFieldEnum = (typeof VendorScalarFieldEnum)[keyof typeof VendorScalarFieldEnum]
+
+
 export const RfpScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -106,28 +120,19 @@ export const RfpScalarFieldEnum = {
   paymentTerms: 'paymentTerms',
   requirements: 'requirements',
   createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   requesterId: 'requesterId'
 } as const
 
 export type RfpScalarFieldEnum = (typeof RfpScalarFieldEnum)[keyof typeof RfpScalarFieldEnum]
 
 
-export const VendorScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  email: 'email',
-  contactPerson: 'contactPerson',
-  notes: 'notes'
-} as const
-
-export type VendorScalarFieldEnum = (typeof VendorScalarFieldEnum)[keyof typeof VendorScalarFieldEnum]
-
-
 export const RfpVendorScalarFieldEnum = {
   id: 'id',
   rfpId: 'rfpId',
   vendorId: 'vendorId',
-  status: 'status'
+  status: 'status',
+  createdAt: 'createdAt'
 } as const
 
 export type RfpVendorScalarFieldEnum = (typeof RfpVendorScalarFieldEnum)[keyof typeof RfpVendorScalarFieldEnum]
@@ -139,6 +144,8 @@ export const ProposalScalarFieldEnum = {
   vendorId: 'vendorId',
   emailMessageId: 'emailMessageId',
   parsedAt: 'parsedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   totalPrice: 'totalPrice',
   currency: 'currency',
   deliveryDays: 'deliveryDays',

@@ -117,23 +117,35 @@ export const vendorApi = {
 
 // ===== PROPOSAL API =====
 export const proposalApi = {
-  // Get proposals for RFP
-  getByRfp: async (rfpId: number) => {
-    const response = await fetch(`${API_URL}/rfps/${rfpId}/proposals`, {
-      headers: getAuthHeader(),
-    });
-    if (!response.ok) throw new Error('Failed to fetch proposals');
-    return response.json();
-  },
-
   // Create proposal
   create: async (rfpId: number, data: any) => {
-    const response = await fetch(`${API_URL}/rfps/${rfpId}/proposals`, {
+    const res = await fetch(`${API_URL}/proposals`, {
       method: 'POST',
-      headers: getAuthHeader(),
-      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rfpId, ...data }),
     });
-    if (!response.ok) throw new Error('Failed to create proposal');
-    return response.json();
+    if (!res.ok) throw new Error('Failed to create proposal');
+    return res.json();
+  },
+
+  // Get proposals for an RFP (for requester)
+  getByRfp: async (rfpId: number) => {
+    const res = await fetch(`${API_URL}/rfps/${rfpId}/proposals`);
+    if (!res.ok) throw new Error('Failed to fetch proposals');
+    return res.json();
+  },
+
+  // ✅ Get proposals by vendor (for vendor)
+  getByVendor: async (vendorId: number) => {
+    const res = await fetch(`${API_URL}/proposals/vendor/${vendorId}`);
+    if (!res.ok) throw new Error('Failed to fetch vendor proposals');
+    return res.json();
+  },
+
+  // ✅ Get single proposal details
+  getById: async (id: number) => {
+    const res = await fetch(`${API_URL}/proposals/${id}`);
+    if (!res.ok) throw new Error('Failed to fetch proposal');
+    return res.json();
   },
 };

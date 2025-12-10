@@ -1,3 +1,4 @@
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
 export interface LoginResponse {
@@ -18,23 +19,18 @@ export const authApi = {
     password: string,
     role: 'requester' | 'vendor'
   ): Promise<LoginResponse> => {
-    try {
-      const response = await fetch(`${API_URL}/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password, role }),
-      });
+    const response = await fetch(`${API_URL}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password, role }),
+    });
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || `HTTP error! status: ${response.status}`);
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error('Registration error:', error);
-      throw error;
+    if (!response.ok) {
+      const text = await response.text(); // helps if backend returns HTML
+      throw new Error(text || `HTTP error! status: ${response.status}`);
     }
+
+    return response.json();
   },
 
   login: async (
@@ -42,22 +38,17 @@ export const authApi = {
     password: string,
     role: 'requester' | 'vendor'
   ): Promise<LoginResponse> => {
-    try {
-      const response = await fetch(`${API_URL}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, role }),
-      });
+    const response = await fetch(`${API_URL}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, role }),
+    });
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || `HTTP error! status: ${response.status}`);
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error('Login error:', error);
-      throw error;
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(text || `HTTP error! status: ${response.status}`);
     }
+
+    return response.json();
   },
 };
