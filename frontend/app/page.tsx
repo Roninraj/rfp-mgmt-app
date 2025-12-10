@@ -1,69 +1,97 @@
 'use client';
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { authApi } from '@/lib/auth';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useAuthStore } from '@/lib/store';
 
 export default function Home() {
   const router = useRouter();
+  const { user, token, loadFromStorage } = useAuthStore();
 
   useEffect(() => {
-    if (authApi.isAuthenticated()) {
+    // Load user from localStorage on mount
+    loadFromStorage();
+  }, [loadFromStorage]);
+
+  // If user is logged in, redirect to dashboard
+  useEffect(() => {
+    if (user && token) {
       router.push('/dashboard');
     }
-  }, [router]);
+  }, [user, token, router]);
 
   return (
-    <div style={styles.container}>
-      <div style={styles.hero}>
-        <h1>RFP Management System</h1>
-        <p>Streamline your Request for Proposal process</p>
-        <div style={styles.buttons}>
-          <Link href="/login" style={{ ...styles.button, ...styles.primary }}>
+    <div className="min-h-screen bg-linear-to-br from-slate-900 to-slate-800 flex items-center justify-center px-4">
+      <div className="max-w-2xl mx-auto text-center">
+        {/* Hero Section */}
+        <div className="mb-12">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            RFP Management System
+          </h1>
+          <p className="text-xl text-slate-300 mb-8">
+            Streamline your Request for Proposals process. Connect requesters with vendors effortlessly.
+          </p>
+        </div>
+
+        {/* Features */}
+        <div className="grid md:grid-cols-3 gap-6 mb-12">
+          <div className="bg-slate-700 p-6 rounded-lg">
+            <div className="text-3xl mb-3">📋</div>
+            <h3 className="text-lg font-semibold text-white mb-2">Create RFPs</h3>
+            <p className="text-slate-300 text-sm">
+              Post requests for proposals and manage vendor responses in one place.
+            </p>
+          </div>
+
+          <div className="bg-slate-700 p-6 rounded-lg">
+            <div className="text-3xl mb-3">🏢</div>
+            <h3 className="text-lg font-semibold text-white mb-2">Vendor Management</h3>
+            <p className="text-slate-300 text-sm">
+              Build and manage your vendor database with ease.
+            </p>
+          </div>
+
+          <div className="bg-slate-700 p-6 rounded-lg">
+            <div className="text-3xl mb-3">📊</div>
+            <h3 className="text-lg font-semibold text-white mb-2">Compare Proposals</h3>
+            <p className="text-slate-300 text-sm">
+              Analyze and compare proposals side-by-side with scoring.
+            </p>
+          </div>
+        </div>
+
+        {/* CTA Buttons */}
+        <div className="flex flex-col md:flex-row gap-4 justify-center">
+          <Link
+            href="/register"
+            className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+          >
+            Get Started
+          </Link>
+          <Link
+            href="/login"
+            className="px-8 py-3 bg-slate-600 hover:bg-slate-700 text-white font-semibold rounded-lg transition-colors"
+          >
             Login
           </Link>
-          <Link href="/register" style={{ ...styles.button, ...styles.secondary }}>
-            Register
-          </Link>
+        </div>
+
+        {/* Demo Credentials */}
+        <div className="mt-12 pt-12 border-t border-slate-700">
+          <p className="text-slate-400 text-sm mb-4">
+            Want to try it out? Use the credentials below for a quick demo:
+          </p>
+          <div className="bg-slate-800 p-4 rounded-lg inline-block text-left">
+            <p className="text-slate-300 text-sm">
+              <strong>Requester:</strong> demo@example.com / password123
+            </p>
+            <p className="text-slate-300 text-sm">
+              <strong>Vendor:</strong> vendor@example.com / password123
+            </p>
+          </div>
         </div>
       </div>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: '100vh',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-  },
-  hero: {
-    textAlign: 'center' as const,
-    color: 'white',
-  },
-  buttons: {
-    marginTop: '2rem',
-    display: 'flex',
-    gap: '1rem',
-    justifyContent: 'center',
-  },
-  button: {
-    padding: '0.75rem 2rem',
-    fontSize: '1rem',
-    borderRadius: '4px',
-    textDecoration: 'none',
-    cursor: 'pointer',
-  },
-  primary: {
-    background: 'white',
-    color: '#667eea',
-  },
-  secondary: {
-    background: 'transparent',
-    color: 'white',
-    border: '2px solid white',
-  },
-};

@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 datasource db {
   provider = "postgresql"
 }
@@ -12,8 +6,6 @@ generator client {
   provider = "prisma-client"
   output   = "../src/generated"
 }
-
-
 
 model User {
   id            Int       @id @default(autoincrement())
@@ -32,11 +24,28 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  // Relations - A user who is a requester creates RFPs
+  // Relations
   createdRfps   Rfp[]     @relation("RequesterRfps")
+  vendor        Vendor?   @relation("UserVendor") // Link to Vendor (optional, only for vendor users)
 }
 
-// Update your existing Rfp model to include requester
+model Vendor {
+  id            Int       @id @default(autoincrement())
+  name          String
+  email         String    @unique
+  contactPerson String?
+  notes         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Link back to User (optional, for vendor users)
+  userId        Int?      @unique
+  user          User?     @relation("UserVendor", fields: [userId], references: [id], onDelete: SetNull)
+
+  proposals     Proposal[]
+  rfpVendors    RfpVendor[]
+}
+
 model Rfp {
   id              Int       @id @default(autoincrement())
   title           String
@@ -47,8 +56,9 @@ model Rfp {
   paymentTerms    String?
   requirements    Json?
   createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
   
-  // Add requester relation
+  // Requester relation
   requesterId     Int?
   requester       User?     @relation("RequesterRfps", fields: [requesterId], references: [id], onDelete: SetNull)
 
@@ -56,35 +66,28 @@ model Rfp {
   rfpVendors      RfpVendor[]
 }
 
-// Vendor model - link to User
-model Vendor {
-  id            Int       @id @default(autoincrement())
-  name          String
-  email         String
-  contactPerson String?
-  notes         String?
-
-  proposals     Proposal[]
-  rfpVendors    RfpVendor[]
-}
-
 model RfpVendor {
-  id        Int   @id @default(autoincrement())
-  rfp       Rfp   @relation(fields: [rfpId], references: [id])
+  id        Int      @id @default(autoincrement())
+  rfp       Rfp      @relation(fields: [rfpId], references: [id], onDelete: Cascade)
   rfpId     Int
-  vendor    Vendor @relation(fields: [vendorId], references: [id])
+  vendor    Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
   vendorId  Int
-  status    String @default("invited")
+  status    String   @default("invited")
+  createdAt DateTime @default(now())
+
+  @@unique([rfpId, vendorId]) // Prevent duplicate invites
 }
 
 model Proposal {
   id               Int      @id @default(autoincrement())
-  rfp              Rfp      @relation(fields: [rfpId], references: [id])
+  rfp              Rfp      @relation(fields: [rfpId], references: [id], onDelete: Cascade)
   rfpId            Int
-  vendor           Vendor   @relation(fields: [vendorId], references: [id])
+  vendor           Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
   vendorId         Int
   emailMessageId   String?
   parsedAt         DateTime?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   totalPrice       Float?
   currency         String?  @default("USD")
@@ -99,7 +102,7 @@ model Proposal {
 
 model ProposalScore {
   id             Int       @id @default(autoincrement())
-  proposal       Proposal  @relation(fields: [proposalId], references: [id])
+  proposal       Proposal  @relation(fields: [proposalId], references: [id], onDelete: Cascade)
   proposalId     Int       @unique
   priceScore     Float?
   deliveryScore  Float?

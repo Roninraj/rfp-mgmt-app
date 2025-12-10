@@ -1,52 +1,47 @@
-import Cookies from 'js-cookie';
-import { LoginResponse, User } from './types';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+export interface LoginResponse {
+  message: string;
+  token: string;
+  user: {
+    id: number;
+    name: string;
+    email: string;
+    role: 'requester' | 'vendor';
+  };
+}
 
 export const authApi = {
-  async register(
+  register: async (
+    name: string,
     email: string,
     password: string,
-    name: string,
-    role: 'requester' | 'vendor',
-    companyName?: string,
-    phone?: string,
-    city?: string
-  ): Promise<LoginResponse> {
+    role: 'requester' | 'vendor'
+  ): Promise<LoginResponse> => {
     try {
       const response = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          password,
-          name,
-          role,
-          companyName,
-          phone,
-          city,
-        }),
+        body: JSON.stringify({ name, email, password, role }),
       });
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message || 'Registration failed');
+        throw new Error(error.message || `HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
-      Cookies.set('token', data.token, { expires: 7 });
-      return data;
+      return await response.json();
     } catch (error) {
       console.error('Registration error:', error);
       throw error;
     }
   },
 
-  async login(
+  login: async (
     email: string,
     password: string,
     role: 'requester' | 'vendor'
-  ): Promise<LoginResponse> {
+  ): Promise<LoginResponse> => {
     try {
       const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
@@ -56,27 +51,13 @@ export const authApi = {
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message || 'Login failed');
+        throw new Error(error.message || `HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
-      Cookies.set('token', data.token, { expires: 7 });
-      return data;
+      return await response.json();
     } catch (error) {
       console.error('Login error:', error);
       throw error;
     }
-  },
-
-  logout() {
-    Cookies.remove('token');
-  },
-
-  getToken() {
-    return Cookies.get('token');
-  },
-
-  isAuthenticated() {
-    return !!this.getToken();
   },
 };

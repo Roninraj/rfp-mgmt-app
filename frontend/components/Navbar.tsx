@@ -1,12 +1,12 @@
 'use client';
 
+import { useAuthStore } from '@/lib/store';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/lib/store';
 
 export function Navbar() {
+  const { user, token, logout } = useAuthStore();
   const router = useRouter();
-  const { user, logout } = useAuthStore();
 
   const handleLogout = () => {
     logout();
@@ -14,68 +14,49 @@ export function Navbar() {
   };
 
   return (
-    <nav style={styles.navbar}>
-      <div style={styles.container}>
-        <Link href="/dashboard" style={styles.logo}>
-          📋 RFP Manager
+    <nav className="bg-white shadow-md">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
+        <Link href="/" className="text-2xl font-bold text-blue-600">
+          RFP Manager
         </Link>
-        {user && (
-          <div style={styles.nav}>
-            <div style={styles.userInfo}>
-              <span>{user.name}</span>
-              <span style={styles.role}>({user.role})</span>
-            </div>
-            <button onClick={handleLogout} style={styles.logout}>
-              Logout
-            </button>
-          </div>
-        )}
+
+        <div className="flex items-center gap-3">
+          {user && token ? (
+            <>
+              <Link
+                href="/dashboard"
+                className="text-sm text-slate-600 hover:text-slate-900"
+              >
+                Dashboard
+              </Link>
+              <span className="text-sm text-slate-600">
+                {user.name}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="rounded-md bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="text-sm text-slate-600 hover:text-slate-900"
+              >
+                Login
+              </Link>
+              <Link
+                href="/register"
+                className="rounded-md bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700"
+              >
+                Register
+              </Link>
+            </>
+          )}
+        </div>
       </div>
     </nav>
   );
 }
-
-const styles = {
-  navbar: {
-    background: '#2c3e50',
-    color: 'white',
-    padding: '1rem 0',
-    borderBottom: '1px solid #34495e',
-  },
-  container: {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '0 1rem',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  logo: {
-    fontSize: '1.5rem',
-    fontWeight: 'bold',
-    textDecoration: 'none',
-    color: 'white',
-  },
-  nav: {
-    display: 'flex',
-    gap: '2rem',
-    alignItems: 'center',
-  },
-  userInfo: {
-    display: 'flex',
-    gap: '0.5rem',
-    alignItems: 'center',
-  },
-  role: {
-    fontSize: '0.875rem',
-    opacity: 0.8,
-  },
-  logout: {
-    padding: '0.5rem 1rem',
-    background: '#e74c3c',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  },
-};

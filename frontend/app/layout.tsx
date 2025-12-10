@@ -4,7 +4,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'RFP Management System',
-  description: 'Request for Proposal Management',
+  description: 'Request for Proposal Management Platform',
 };
 
 export default function RootLayout({

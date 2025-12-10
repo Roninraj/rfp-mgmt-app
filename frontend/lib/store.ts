@@ -1,58 +1,98 @@
+'use client';
+
 import { create } from 'zustand';
-import { User } from './types';
 import { authApi } from './auth';
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: 'requester' | 'vendor';
+}
 
 interface AuthStore {
   user: User | null;
   token: string | null;
   isLoading: boolean;
-  login: (email: string, password: string, role: 'requester' | 'vendor') => Promise<void>;
-  register: (email: string, password: string, name: string, role: 'requester' | 'vendor', companyName?: string, phone?: string, city?: string) => Promise<void>;
+  register: (
+    name: string,
+    email: string,
+    password: string,
+    role: 'requester' | 'vendor'
+  ) => Promise<void>;
+  login: (
+    email: string,
+    password: string,
+    role: 'requester' | 'vendor'
+  ) => Promise<void>;
   logout: () => void;
-  setUser: (user: User | null) => void;
+  loadFromStorage: () => void;
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
-  token: authApi.getToken() || null,
+  token: null,
   isLoading: false,
+
+  register: async (name, email, password, role) => {
+    set({ isLoading: true });
+    try {
+      const response = await authApi.register(name, email, password, role);
+
+      if (response.token) {
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+      }
+
+      set({
+        user: response.user,
+        token: response.token,
+        isLoading: false,
+      });
+    } catch (error) {
+      set({ isLoading: false });
+      throw error;
+    }
+  },
 
   login: async (email, password, role) => {
     set({ isLoading: true });
     try {
       const response = await authApi.login(email, password, role);
-      set({
-        user: response.user,
-        token: response.token,
-      });
-    } catch (error) {
-      throw error;
-    } finally {
-      set({ isLoading: false });
-    }
-  },
 
-  register: async (email, password, name, role, companyName, phone, city) => {
-    set({ isLoading: true });
-    try {
-      const response = await authApi.register(email, password, name, role, companyName, phone, city);
+      if (response.token) {
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+      }
+
       set({
         user: response.user,
         token: response.token,
+        isLoading: false,
       });
     } catch (error) {
-      throw error;
-    } finally {
       set({ isLoading: false });
+      throw error;
     }
   },
 
   logout: () => {
-    authApi.logout();
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     set({ user: null, token: null });
   },
 
-  setUser: (user) => {
-    set({ user });
+  loadFromStorage: () => {
+    if (typeof window === 'undefined') return;
+
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+
+    if (token && user) {
+      set({
+        token,
+        user: JSON.parse(user),
+      });
+    }
   },
 }));

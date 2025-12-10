@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/server.js",
     "build": "tsc",
-    "start": "node dist/index.ts",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",
@@ -18,18 +18,33 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@prisma/adapter-pg": "^7.1.0",
+    "@prisma/client": "^7.1.0",
+    "axios": "^1.6.0",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "date-fns": "^2.30.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.3",
+    "next": "^14.0.0",
+    "nodemailer": "^7.0.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "next": "^14.0.0",
-    "zustand": "^4.4.0",
-    "js-cookie": "^3.0.5",
-    "axios": "^1.6.0",
-    "date-fns": "^2.30.0"
+    "zustand": "^4.4.0"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^20.19.26",
+    "@types/nodemailer": "^7.0.4",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
+    "prisma": "^7.1.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.0.0"
   }
 }
