@@ -385,8 +385,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
-  Rfp: 'Rfp',
   Vendor: 'Vendor',
+  Rfp: 'Rfp',
   RfpVendor: 'RfpVendor',
   Proposal: 'Proposal',
   ProposalScore: 'ProposalScore'
@@ -405,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "rfp" | "vendor" | "rfpVendor" | "proposal" | "proposalScore"
+    modelProps: "user" | "vendor" | "rfp" | "rfpVendor" | "proposal" | "proposalScore"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -483,80 +483,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Rfp: {
-      payload: Prisma.$RfpPayload<ExtArgs>
-      fields: Prisma.RfpFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.RfpFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.RfpFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload>
-        }
-        findFirst: {
-          args: Prisma.RfpFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.RfpFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload>
-        }
-        findMany: {
-          args: Prisma.RfpFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload>[]
-        }
-        create: {
-          args: Prisma.RfpCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload>
-        }
-        createMany: {
-          args: Prisma.RfpCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.RfpCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload>[]
-        }
-        delete: {
-          args: Prisma.RfpDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload>
-        }
-        update: {
-          args: Prisma.RfpUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload>
-        }
-        deleteMany: {
-          args: Prisma.RfpDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.RfpUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.RfpUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload>[]
-        }
-        upsert: {
-          args: Prisma.RfpUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload>
-        }
-        aggregate: {
-          args: Prisma.RfpAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateRfp>
-        }
-        groupBy: {
-          args: Prisma.RfpGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.RfpGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.RfpCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.RfpCountAggregateOutputType> | number
-        }
-      }
-    }
     Vendor: {
       payload: Prisma.$VendorPayload<ExtArgs>
       fields: Prisma.VendorFieldRefs
@@ -628,6 +554,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.VendorCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.VendorCountAggregateOutputType> | number
+        }
+      }
+    }
+    Rfp: {
+      payload: Prisma.$RfpPayload<ExtArgs>
+      fields: Prisma.RfpFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RfpFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RfpFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload>
+        }
+        findFirst: {
+          args: Prisma.RfpFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RfpFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload>
+        }
+        findMany: {
+          args: Prisma.RfpFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload>[]
+        }
+        create: {
+          args: Prisma.RfpCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload>
+        }
+        createMany: {
+          args: Prisma.RfpCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RfpCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload>[]
+        }
+        delete: {
+          args: Prisma.RfpDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload>
+        }
+        update: {
+          args: Prisma.RfpUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload>
+        }
+        deleteMany: {
+          args: Prisma.RfpDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RfpUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RfpUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload>[]
+        }
+        upsert: {
+          args: Prisma.RfpUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RfpPayload>
+        }
+        aggregate: {
+          args: Prisma.RfpAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRfp>
+        }
+        groupBy: {
+          args: Prisma.RfpGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RfpGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RfpCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RfpCountAggregateOutputType> | number
         }
       }
     }
@@ -913,6 +913,20 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const VendorScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  contactPerson: 'contactPerson',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+} as const
+
+export type VendorScalarFieldEnum = (typeof VendorScalarFieldEnum)[keyof typeof VendorScalarFieldEnum]
+
+
 export const RfpScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -923,28 +937,19 @@ export const RfpScalarFieldEnum = {
   paymentTerms: 'paymentTerms',
   requirements: 'requirements',
   createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   requesterId: 'requesterId'
 } as const
 
 export type RfpScalarFieldEnum = (typeof RfpScalarFieldEnum)[keyof typeof RfpScalarFieldEnum]
 
 
-export const VendorScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  email: 'email',
-  contactPerson: 'contactPerson',
-  notes: 'notes'
-} as const
-
-export type VendorScalarFieldEnum = (typeof VendorScalarFieldEnum)[keyof typeof VendorScalarFieldEnum]
-
-
 export const RfpVendorScalarFieldEnum = {
   id: 'id',
   rfpId: 'rfpId',
   vendorId: 'vendorId',
-  status: 'status'
+  status: 'status',
+  createdAt: 'createdAt'
 } as const
 
 export type RfpVendorScalarFieldEnum = (typeof RfpVendorScalarFieldEnum)[keyof typeof RfpVendorScalarFieldEnum]
@@ -956,6 +961,8 @@ export const ProposalScalarFieldEnum = {
   vendorId: 'vendorId',
   emailMessageId: 'emailMessageId',
   parsedAt: 'parsedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   totalPrice: 'totalPrice',
   currency: 'currency',
   deliveryDays: 'deliveryDays',
@@ -1200,8 +1207,8 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
-  rfp?: Prisma.RfpOmit
   vendor?: Prisma.VendorOmit
+  rfp?: Prisma.RfpOmit
   rfpVendor?: Prisma.RfpVendorOmit
   proposal?: Prisma.ProposalOmit
   proposalScore?: Prisma.ProposalScoreOmit

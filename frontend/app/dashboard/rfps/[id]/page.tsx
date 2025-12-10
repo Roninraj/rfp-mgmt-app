@@ -36,12 +36,13 @@ export default function RFPDetailPage() {
   return (
     <AuthGuard>
       <div style={styles.container}>
-        <h1>{rfp.title}</h1>
+        <h1 className=" text-blue-900">{<strong>{rfp.title}</strong>}</h1><br/><br/>
         <div style={styles.details}>
-          <p><strong>Description:</strong> {rfp.descriptionRaw}</p>
-          <p><strong>Budget:</strong> {rfp.budget?.toLocaleString() || 'N/A'} {rfp.currency}</p>
-          <p><strong>Delivery By:</strong> {new Date(rfp.deliveryBy).toLocaleDateString()}</p>
-          {rfp.paymentTerms && <p><strong>Payment Terms:</strong> {rfp.paymentTerms}</p>}
+          <p><strong>Description:</strong> {rfp.descriptionRaw}</p><br/>
+          <p><strong>Budget:</strong> {rfp.budget?.toLocaleString() || 'N/A'} {rfp.currency}</p><br/>
+          <p><strong>Delivery By:</strong> {new Date(rfp.deliveryBy).toLocaleDateString()}</p><br/>
+          {rfp.paymentTerms && <p><strong>Payment Terms:</strong> {rfp.paymentTerms}</p>}<br/>
+          {rfp.requirements && <p><strong>Requirements:</strong> {rfp.requirements}</p>}
         </div>
 
         <h2>Proposals ({rfp.proposals?.length || 0})</h2>

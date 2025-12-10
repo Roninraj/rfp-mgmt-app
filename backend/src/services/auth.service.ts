@@ -3,20 +3,22 @@ import jwt from 'jsonwebtoken';
 import { prisma } from '../config/database';
 import { JWT_SECRET } from '../config/env';
 
+interface RegisterData {
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+  companyName?: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  postalCode?: string;
+}
+
 export const authService = {
-  async register(data: {
-    name: string;
-    email: string;
-    password: string;
-    role: string;
-    companyName?: string;
-    phone?: string;
-    address?: string;
-    city?: string;
-    state?: string;
-    country?: string;
-    postalCode?: string;
-  }) {
+  async register(data: RegisterData) {
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
       where: { email: data.email },
@@ -45,6 +47,18 @@ export const authService = {
         isActive: true,
       },
     });
+
+    // 🔑 If vendor user, create matching Vendor row
+    if (newUser.role === 'vendor') {
+      await prisma.vendor.create({
+        data: {
+          name: newUser.name,
+          email: newUser.email,
+          contactPerson: newUser.name,
+          userId: newUser.id, // Link to User
+        },
+      });
+    }
 
     // Create JWT token
     const token = jwt.sign(

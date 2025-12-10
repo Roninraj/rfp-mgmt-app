@@ -43,15 +43,15 @@ export { Prisma }
  */
 export type User = Prisma.UserModel
 /**
- * Model Rfp
- * 
- */
-export type Rfp = Prisma.RfpModel
-/**
  * Model Vendor
  * 
  */
 export type Vendor = Prisma.VendorModel
+/**
+ * Model Rfp
+ * 
+ */
+export type Rfp = Prisma.RfpModel
 /**
  * Model RfpVendor
  * 

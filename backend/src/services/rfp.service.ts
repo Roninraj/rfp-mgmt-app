@@ -1,34 +1,103 @@
 import { prisma } from '../config/database';
 
+interface CreateRfpData {
+  title: string;
+  descriptionRaw: string;
+  requesterId?: number;
+  budget?: number;
+  currency?: string;
+  deliveryBy?: string;
+  paymentTerms?: string;
+  requirements?: any;
+}
+
+interface UpdateRfpData {
+  title?: string;
+  descriptionRaw?: string;
+  budget?: number;
+  currency?: string;
+  deliveryBy?: string;
+  paymentTerms?: string;
+  requirements?: any;
+}
+
 export const rfpService = {
-  async createRfp(data: any) {
+  async createRfp(data: CreateRfpData) {
     const rfp = await prisma.rfp.create({
       data: {
         title: data.title,
         descriptionRaw: data.descriptionRaw,
-        budget: data.budget,
-        currency: data.currency,
+        requesterId: data.requesterId || null,
+        budget: data.budget || null,
+        currency: data.currency || 'USD',
         deliveryBy: data.deliveryBy ? new Date(data.deliveryBy) : null,
-        paymentTerms: data.paymentTerms,
-        requirements: data.requirements,
+        paymentTerms: data.paymentTerms || null,
+        requirements: data.requirements || null,
+      },
+      include: {
+        requester: true,
+        rfpVendors: {
+          include: { vendor: true },
+        },
       },
     });
     return rfp;
   },
 
   async getAllRfps() {
-    const rfps = await prisma.rfp.findMany();
+    const rfps = await prisma.rfp.findMany({
+      include: {
+        requester: {
+          select: { id: true, name: true, email: true },
+        },
+        proposals: {
+          select: { id: true, vendorId: true },
+        },
+        rfpVendors: {
+          select: { vendorId: true, status: true },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
     return rfps;
   },
 
   async getRfpById(id: number) {
     const rfp = await prisma.rfp.findUnique({
       where: { id },
+      include: {
+        requester: true,
+        proposals: {
+          include: {
+            vendor: true,
+            score: true,
+          },
+        },
+        rfpVendors: {
+          include: { vendor: true },
+        },
+      },
     });
     return rfp;
   },
 
-  async updateRfp(id: number, data: any) {
+  async getRfpsByRequesterId(requesterId: number) {
+    const rfps = await prisma.rfp.findMany({
+      where: { requesterId },
+      include: {
+        proposals: {
+          include: { vendor: true, score: true },
+        },
+        rfpVendors: {
+          include: { vendor: true },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+    return rfps;
+  },
+
+  async updateRfp(id: number, data: UpdateRfpData) {
     const rfp = await prisma.rfp.update({
       where: { id },
       data: {
@@ -36,9 +105,14 @@ export const rfpService = {
         descriptionRaw: data.descriptionRaw,
         budget: data.budget,
         currency: data.currency,
-        deliveryBy: data.deliveryBy ? new Date(data.deliveryBy) : null,
+        deliveryBy: data.deliveryBy ? new Date(data.deliveryBy) : undefined,
         paymentTerms: data.paymentTerms,
         requirements: data.requirements,
+      },
+      include: {
+        requester: true,
+        proposals: true,
+        rfpVendors: true,
       },
     });
     return rfp;
@@ -48,5 +122,20 @@ export const rfpService = {
     await prisma.rfp.delete({
       where: { id },
     });
+  },
+
+  async inviteVendor(rfpId: number, vendorId: number) {
+    const rfpVendor = await prisma.rfpVendor.create({
+      data: {
+        rfpId,
+        vendorId,
+        status: 'invited',
+      },
+      include: {
+        rfp: true,
+        vendor: true,
+      },
+    });
+    return rfpVendor;
   },
 };

@@ -47,6 +47,7 @@ export type RfpMinAggregateOutputType = {
   deliveryBy: Date | null
   paymentTerms: string | null
   createdAt: Date | null
+  updatedAt: Date | null
   requesterId: number | null
 }
 
@@ -59,6 +60,7 @@ export type RfpMaxAggregateOutputType = {
   deliveryBy: Date | null
   paymentTerms: string | null
   createdAt: Date | null
+  updatedAt: Date | null
   requesterId: number | null
 }
 
@@ -72,6 +74,7 @@ export type RfpCountAggregateOutputType = {
   paymentTerms: number
   requirements: number
   createdAt: number
+  updatedAt: number
   requesterId: number
   _all: number
 }
@@ -98,6 +101,7 @@ export type RfpMinAggregateInputType = {
   deliveryBy?: true
   paymentTerms?: true
   createdAt?: true
+  updatedAt?: true
   requesterId?: true
 }
 
@@ -110,6 +114,7 @@ export type RfpMaxAggregateInputType = {
   deliveryBy?: true
   paymentTerms?: true
   createdAt?: true
+  updatedAt?: true
   requesterId?: true
 }
 
@@ -123,6 +128,7 @@ export type RfpCountAggregateInputType = {
   paymentTerms?: true
   requirements?: true
   createdAt?: true
+  updatedAt?: true
   requesterId?: true
   _all?: true
 }
@@ -223,6 +229,7 @@ export type RfpGroupByOutputType = {
   paymentTerms: string | null
   requirements: runtime.JsonValue | null
   createdAt: Date
+  updatedAt: Date
   requesterId: number | null
   _count: RfpCountAggregateOutputType | null
   _avg: RfpAvgAggregateOutputType | null
@@ -259,6 +266,7 @@ export type RfpWhereInput = {
   paymentTerms?: Prisma.StringNullableFilter<"Rfp"> | string | null
   requirements?: Prisma.JsonNullableFilter<"Rfp">
   createdAt?: Prisma.DateTimeFilter<"Rfp"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Rfp"> | Date | string
   requesterId?: Prisma.IntNullableFilter<"Rfp"> | number | null
   requester?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   proposals?: Prisma.ProposalListRelationFilter
@@ -275,6 +283,7 @@ export type RfpOrderByWithRelationInput = {
   paymentTerms?: Prisma.SortOrderInput | Prisma.SortOrder
   requirements?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   requesterId?: Prisma.SortOrderInput | Prisma.SortOrder
   requester?: Prisma.UserOrderByWithRelationInput
   proposals?: Prisma.ProposalOrderByRelationAggregateInput
@@ -294,6 +303,7 @@ export type RfpWhereUniqueInput = Prisma.AtLeast<{
   paymentTerms?: Prisma.StringNullableFilter<"Rfp"> | string | null
   requirements?: Prisma.JsonNullableFilter<"Rfp">
   createdAt?: Prisma.DateTimeFilter<"Rfp"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Rfp"> | Date | string
   requesterId?: Prisma.IntNullableFilter<"Rfp"> | number | null
   requester?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   proposals?: Prisma.ProposalListRelationFilter
@@ -310,6 +320,7 @@ export type RfpOrderByWithAggregationInput = {
   paymentTerms?: Prisma.SortOrderInput | Prisma.SortOrder
   requirements?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   requesterId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.RfpCountOrderByAggregateInput
   _avg?: Prisma.RfpAvgOrderByAggregateInput
@@ -331,6 +342,7 @@ export type RfpScalarWhereWithAggregatesInput = {
   paymentTerms?: Prisma.StringNullableWithAggregatesFilter<"Rfp"> | string | null
   requirements?: Prisma.JsonNullableWithAggregatesFilter<"Rfp">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Rfp"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Rfp"> | Date | string
   requesterId?: Prisma.IntNullableWithAggregatesFilter<"Rfp"> | number | null
 }
 
@@ -343,6 +355,7 @@ export type RfpCreateInput = {
   paymentTerms?: string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  updatedAt?: Date | string
   requester?: Prisma.UserCreateNestedOneWithoutCreatedRfpsInput
   proposals?: Prisma.ProposalCreateNestedManyWithoutRfpInput
   rfpVendors?: Prisma.RfpVendorCreateNestedManyWithoutRfpInput
@@ -358,6 +371,7 @@ export type RfpUncheckedCreateInput = {
   paymentTerms?: string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  updatedAt?: Date | string
   requesterId?: number | null
   proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutRfpInput
   rfpVendors?: Prisma.RfpVendorUncheckedCreateNestedManyWithoutRfpInput
@@ -372,6 +386,7 @@ export type RfpUpdateInput = {
   paymentTerms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   requester?: Prisma.UserUpdateOneWithoutCreatedRfpsNestedInput
   proposals?: Prisma.ProposalUpdateManyWithoutRfpNestedInput
   rfpVendors?: Prisma.RfpVendorUpdateManyWithoutRfpNestedInput
@@ -387,6 +402,7 @@ export type RfpUncheckedUpdateInput = {
   paymentTerms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   requesterId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   proposals?: Prisma.ProposalUncheckedUpdateManyWithoutRfpNestedInput
   rfpVendors?: Prisma.RfpVendorUncheckedUpdateManyWithoutRfpNestedInput
@@ -402,6 +418,7 @@ export type RfpCreateManyInput = {
   paymentTerms?: string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  updatedAt?: Date | string
   requesterId?: number | null
 }
 
@@ -414,6 +431,7 @@ export type RfpUpdateManyMutationInput = {
   paymentTerms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RfpUncheckedUpdateManyInput = {
@@ -426,6 +444,7 @@ export type RfpUncheckedUpdateManyInput = {
   paymentTerms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   requesterId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
@@ -449,6 +468,7 @@ export type RfpCountOrderByAggregateInput = {
   paymentTerms?: Prisma.SortOrder
   requirements?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   requesterId?: Prisma.SortOrder
 }
 
@@ -467,6 +487,7 @@ export type RfpMaxOrderByAggregateInput = {
   deliveryBy?: Prisma.SortOrder
   paymentTerms?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   requesterId?: Prisma.SortOrder
 }
 
@@ -479,6 +500,7 @@ export type RfpMinOrderByAggregateInput = {
   deliveryBy?: Prisma.SortOrder
   paymentTerms?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   requesterId?: Prisma.SortOrder
 }
 
@@ -547,14 +569,6 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type RfpCreateNestedOneWithoutRfpVendorsInput = {
   create?: Prisma.XOR<Prisma.RfpCreateWithoutRfpVendorsInput, Prisma.RfpUncheckedCreateWithoutRfpVendorsInput>
   connectOrCreate?: Prisma.RfpCreateOrConnectWithoutRfpVendorsInput
@@ -592,6 +606,7 @@ export type RfpCreateWithoutRequesterInput = {
   paymentTerms?: string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  updatedAt?: Date | string
   proposals?: Prisma.ProposalCreateNestedManyWithoutRfpInput
   rfpVendors?: Prisma.RfpVendorCreateNestedManyWithoutRfpInput
 }
@@ -606,6 +621,7 @@ export type RfpUncheckedCreateWithoutRequesterInput = {
   paymentTerms?: string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  updatedAt?: Date | string
   proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutRfpInput
   rfpVendors?: Prisma.RfpVendorUncheckedCreateNestedManyWithoutRfpInput
 }
@@ -649,6 +665,7 @@ export type RfpScalarWhereInput = {
   paymentTerms?: Prisma.StringNullableFilter<"Rfp"> | string | null
   requirements?: Prisma.JsonNullableFilter<"Rfp">
   createdAt?: Prisma.DateTimeFilter<"Rfp"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Rfp"> | Date | string
   requesterId?: Prisma.IntNullableFilter<"Rfp"> | number | null
 }
 
@@ -661,6 +678,7 @@ export type RfpCreateWithoutRfpVendorsInput = {
   paymentTerms?: string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  updatedAt?: Date | string
   requester?: Prisma.UserCreateNestedOneWithoutCreatedRfpsInput
   proposals?: Prisma.ProposalCreateNestedManyWithoutRfpInput
 }
@@ -675,6 +693,7 @@ export type RfpUncheckedCreateWithoutRfpVendorsInput = {
   paymentTerms?: string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  updatedAt?: Date | string
   requesterId?: number | null
   proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutRfpInput
 }
@@ -704,6 +723,7 @@ export type RfpUpdateWithoutRfpVendorsInput = {
   paymentTerms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   requester?: Prisma.UserUpdateOneWithoutCreatedRfpsNestedInput
   proposals?: Prisma.ProposalUpdateManyWithoutRfpNestedInput
 }
@@ -718,6 +738,7 @@ export type RfpUncheckedUpdateWithoutRfpVendorsInput = {
   paymentTerms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   requesterId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   proposals?: Prisma.ProposalUncheckedUpdateManyWithoutRfpNestedInput
 }
@@ -731,6 +752,7 @@ export type RfpCreateWithoutProposalsInput = {
   paymentTerms?: string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  updatedAt?: Date | string
   requester?: Prisma.UserCreateNestedOneWithoutCreatedRfpsInput
   rfpVendors?: Prisma.RfpVendorCreateNestedManyWithoutRfpInput
 }
@@ -745,6 +767,7 @@ export type RfpUncheckedCreateWithoutProposalsInput = {
   paymentTerms?: string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  updatedAt?: Date | string
   requesterId?: number | null
   rfpVendors?: Prisma.RfpVendorUncheckedCreateNestedManyWithoutRfpInput
 }
@@ -774,6 +797,7 @@ export type RfpUpdateWithoutProposalsInput = {
   paymentTerms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   requester?: Prisma.UserUpdateOneWithoutCreatedRfpsNestedInput
   rfpVendors?: Prisma.RfpVendorUpdateManyWithoutRfpNestedInput
 }
@@ -788,6 +812,7 @@ export type RfpUncheckedUpdateWithoutProposalsInput = {
   paymentTerms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   requesterId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   rfpVendors?: Prisma.RfpVendorUncheckedUpdateManyWithoutRfpNestedInput
 }
@@ -802,6 +827,7 @@ export type RfpCreateManyRequesterInput = {
   paymentTerms?: string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type RfpUpdateWithoutRequesterInput = {
@@ -813,6 +839,7 @@ export type RfpUpdateWithoutRequesterInput = {
   paymentTerms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   proposals?: Prisma.ProposalUpdateManyWithoutRfpNestedInput
   rfpVendors?: Prisma.RfpVendorUpdateManyWithoutRfpNestedInput
 }
@@ -827,6 +854,7 @@ export type RfpUncheckedUpdateWithoutRequesterInput = {
   paymentTerms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   proposals?: Prisma.ProposalUncheckedUpdateManyWithoutRfpNestedInput
   rfpVendors?: Prisma.RfpVendorUncheckedUpdateManyWithoutRfpNestedInput
 }
@@ -841,6 +869,7 @@ export type RfpUncheckedUpdateManyWithoutRequesterInput = {
   paymentTerms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -893,6 +922,7 @@ export type RfpSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   paymentTerms?: boolean
   requirements?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   requesterId?: boolean
   requester?: boolean | Prisma.Rfp$requesterArgs<ExtArgs>
   proposals?: boolean | Prisma.Rfp$proposalsArgs<ExtArgs>
@@ -910,6 +940,7 @@ export type RfpSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   paymentTerms?: boolean
   requirements?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   requesterId?: boolean
   requester?: boolean | Prisma.Rfp$requesterArgs<ExtArgs>
 }, ExtArgs["result"]["rfp"]>
@@ -924,6 +955,7 @@ export type RfpSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   paymentTerms?: boolean
   requirements?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   requesterId?: boolean
   requester?: boolean | Prisma.Rfp$requesterArgs<ExtArgs>
 }, ExtArgs["result"]["rfp"]>
@@ -938,10 +970,11 @@ export type RfpSelectScalar = {
   paymentTerms?: boolean
   requirements?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   requesterId?: boolean
 }
 
-export type RfpOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "descriptionRaw" | "budget" | "currency" | "deliveryBy" | "paymentTerms" | "requirements" | "createdAt" | "requesterId", ExtArgs["result"]["rfp"]>
+export type RfpOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "descriptionRaw" | "budget" | "currency" | "deliveryBy" | "paymentTerms" | "requirements" | "createdAt" | "updatedAt" | "requesterId", ExtArgs["result"]["rfp"]>
 export type RfpInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   requester?: boolean | Prisma.Rfp$requesterArgs<ExtArgs>
   proposals?: boolean | Prisma.Rfp$proposalsArgs<ExtArgs>
@@ -972,6 +1005,7 @@ export type $RfpPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     paymentTerms: string | null
     requirements: runtime.JsonValue | null
     createdAt: Date
+    updatedAt: Date
     requesterId: number | null
   }, ExtArgs["result"]["rfp"]>
   composites: {}
@@ -1408,6 +1442,7 @@ export interface RfpFieldRefs {
   readonly paymentTerms: Prisma.FieldRef<"Rfp", 'String'>
   readonly requirements: Prisma.FieldRef<"Rfp", 'Json'>
   readonly createdAt: Prisma.FieldRef<"Rfp", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Rfp", 'DateTime'>
   readonly requesterId: Prisma.FieldRef<"Rfp", 'Int'>
 }
     
