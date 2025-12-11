@@ -1,20 +1,31 @@
-'use client';
+"use client";
 
+import React, { useState } from 'react';
 import { Proposal } from '@/lib/types';
 import { formatCurrency, formatDate } from '@/lib/utils';
 
 interface ProposalCardProps {
   proposal: Proposal;
+  rfpId?: number;
+  isRequesterOwner?: boolean;
+  selected?: boolean;
+  onSelect?: (proposalId: number) => void;
 }
 
-export function ProposalCard({ proposal }: ProposalCardProps) {
+export function ProposalCard({ proposal, rfpId, isRequesterOwner, selected, onSelect }: ProposalCardProps) {
   const score = proposal.score;
+  const [loading, setLoading] = useState(false);
 
   return (
     <div style={styles.card}>
       <div style={styles.header}>
         <h3>{proposal.vendor.name}</h3>
-        <span style={styles.status}>{proposal.status}</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          {selected ? (
+            <span style={{ background: '#27ae60', color: '#fff', padding: '0.25rem 0.5rem', borderRadius: 4 }}>Selected</span>
+          ) : null}
+          <span style={styles.status}>{proposal.status}</span>
+        </div>
       </div>
 
       <div style={styles.content}>
@@ -46,10 +57,42 @@ export function ProposalCard({ proposal }: ProposalCardProps) {
             </div>
           </div>
         )}
+
+        {isRequesterOwner && !selected && (
+          <div style={{ marginTop: 12 }}>
+            <button
+              onClick={async () => {
+                if (!onSelect) return;
+                try {
+                  setLoading(true);
+                  await onSelect(proposal.id);
+                } catch (err) {
+                  // allow parent to handle errors
+                  console.error('Select action failed', err);
+                } finally {
+                  setLoading(false);
+                }
+              }}
+              aria-label={`Select proposal ${proposal.id}`}
+              disabled={loading}
+              style={{
+                padding: '0.5rem 1rem',
+                background: loading ? '#94a3b8' : '#2563eb',
+                color: '#fff',
+                borderRadius: 6,
+                opacity: loading ? 0.9 : 1,
+                cursor: loading ? 'wait' : 'pointer',
+              }}
+            >
+              {loading ? 'Selecting...' : 'Select Proposal'}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 }
+
 
 const styles = {
   card: {

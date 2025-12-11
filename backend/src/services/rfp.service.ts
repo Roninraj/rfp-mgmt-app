@@ -138,4 +138,30 @@ export const rfpService = {
     });
     return rfpVendor;
   },
+
+  async setSelectedProposal(rfpId: number, proposalId: number) {
+    // Verify proposal exists and belongs to the rfp
+    const proposal = await prisma.proposal.findUnique({ where: { id: proposalId } });
+    if (!proposal) {
+      throw new Error('Proposal not found');
+    }
+    if (proposal.rfpId !== rfpId) {
+      throw new Error('Proposal does not belong to the specified RFP');
+    }
+
+    const updated = await prisma.rfp.update({
+      where: { id: rfpId },
+      data: { selectedProposalId: proposalId },
+      include: {
+        requester: true,
+        selectedProposal: {
+          include: { vendor: true, score: true },
+        },
+        proposals: { include: { vendor: true, score: true } },
+        rfpVendors: { include: { vendor: true } },
+      },
+    });
+
+    return updated;
+  },
 };

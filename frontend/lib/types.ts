@@ -20,6 +20,8 @@ export interface RFP {
   createdAt: string;
   requesterId: number;
   requester?: User;
+  selectedProposalId?: number;
+  selectedProposal?: Proposal;
   proposals: Proposal[];
   rfpVendors: RfpVendor[];
 }

@@ -60,6 +60,19 @@ export const rfpApi = {
     if (!response.ok) throw new Error('Failed to delete RFP');
     return response.json();
   },
+  // Select a proposal for an RFP (requester action)
+  selectProposal: async (rfpId: number, proposalId: number) => {
+    const response = await fetch(`${API_URL}/rfps/${rfpId}/select-proposal`, {
+      method: 'POST',
+      headers: getAuthHeader(),
+      body: JSON.stringify({ proposalId }),
+    });
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(`Failed to select proposal: ${text}`);
+    }
+    return response.json();
+  },
 };
 
 // ===== VENDOR API =====

@@ -59,4 +59,29 @@ export const rfpController = {
       return res.status(500).json({ message: 'Failed to delete RFP' });
     }
   },
+
+  async selectProposal(req: Request, res: Response) {
+    try {
+      const rfpId = Number(req.params.rfpId || req.params.id);
+      const { proposalId } = req.body;
+
+      // @ts-ignore - user attached by auth middleware
+      const user = req.user;
+      if (!user) return res.status(401).json({ message: 'Not authenticated' });
+
+      const rfp = await rfpService.getRfpById(rfpId);
+      if (!rfp) return res.status(404).json({ message: 'RFP not found' });
+
+      // Ensure the requester owns this RFP
+      if (rfp.requesterId !== user.id) return res.status(403).json({ message: 'You do not own this RFP' });
+
+      const updated = await rfpService.setSelectedProposal(rfpId, Number(proposalId));
+      return res.json(updated);
+    } catch (err: any) {
+      console.error(err);
+      if (err.message === 'Proposal not found') return res.status(404).json({ message: err.message });
+      if (err.message === 'Proposal does not belong to the specified RFP') return res.status(400).json({ message: err.message });
+      return res.status(500).json({ message: 'Failed to select proposal' });
+    }
+  },
 };

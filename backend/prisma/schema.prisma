@@ -62,6 +62,10 @@ model Rfp {
   requesterId     Int?
   requester       User?     @relation("RequesterRfps", fields: [requesterId], references: [id], onDelete: SetNull)
 
+  // Selected proposal (optional) - stores the chosen proposal for this RFP
+  selectedProposalId Int? @unique
+  selectedProposal   Proposal? @relation("RfpSelectedProposal", fields: [selectedProposalId], references: [id], onDelete: SetNull)
+
   proposals       Proposal[]
   rfpVendors      RfpVendor[]
 }
@@ -98,6 +102,9 @@ model Proposal {
   rawExtracted     Json?
 
   score            ProposalScore?
+
+  // Back-reference for when a proposal is selected for an RFP
+  selectedOnRfp    Rfp?     @relation("RfpSelectedProposal")
 }
 
 model ProposalScore {

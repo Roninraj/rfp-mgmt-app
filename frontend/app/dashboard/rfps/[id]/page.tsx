@@ -51,6 +51,7 @@ export default function RFPDetailPage() {
   const [rfp, setRfp] = useState<RFP | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
 
   useEffect(() => {
     loadRFP();
@@ -90,13 +91,39 @@ export default function RFPDetailPage() {
         </div>
 
         <h2>Proposals ({rfp.proposals?.length || 0})</h2>
+        {/* Transient notice (e.g., after selecting a proposal) */}
+        {notice && (
+          <div style={{ background: '#ecfdf5', border: '1px solid #bbf7d0', padding: 12, borderRadius: 6, marginBottom: 12 }}>
+            {notice}
+          </div>
+        )}
+
         {/* If logged-in user is a vendor show the create form */}
         {useAuthStore.getState().user?.role === 'vendor' && (
           <VendorProposalForm rfpId={rfp.id} onCreated={loadRFP} />
         )}
         {rfp.proposals && rfp.proposals.length > 0 ? (
           rfp.proposals.map((proposal) => (
-            <ProposalCard key={proposal.id} proposal={proposal} />
+            <ProposalCard
+              key={proposal.id}
+              proposal={proposal}
+              rfpId={rfp.id}
+              isRequesterOwner={useAuthStore.getState().user?.role === 'requester' && useAuthStore.getState().user?.id === rfp.requesterId}
+              selected={rfp.selectedProposalId === proposal.id}
+              onSelect={async (proposalId: number) => {
+                if (!confirm('Select this proposal? This action cannot be undone.')) return;
+                try {
+                  await rfpApi.selectProposal(rfp.id, proposalId);
+                  await loadRFP();
+                  setNotice('Proposal selected successfully');
+                  setTimeout(() => setNotice(''), 3500);
+                } catch (err: any) {
+                  console.error(err);
+                  setNotice(err.message || 'Failed to select proposal');
+                  setTimeout(() => setNotice(''), 3500);
+                }
+              }}
+            />
           ))
         ) : (
           <p>No proposals yet</p>

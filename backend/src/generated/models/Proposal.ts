@@ -303,6 +303,7 @@ export type ProposalWhereInput = {
   rfp?: Prisma.XOR<Prisma.RfpScalarRelationFilter, Prisma.RfpWhereInput>
   vendor?: Prisma.XOR<Prisma.VendorScalarRelationFilter, Prisma.VendorWhereInput>
   score?: Prisma.XOR<Prisma.ProposalScoreNullableScalarRelationFilter, Prisma.ProposalScoreWhereInput> | null
+  selectedOnRfp?: Prisma.XOR<Prisma.RfpNullableScalarRelationFilter, Prisma.RfpWhereInput> | null
 }
 
 export type ProposalOrderByWithRelationInput = {
@@ -323,6 +324,7 @@ export type ProposalOrderByWithRelationInput = {
   rfp?: Prisma.RfpOrderByWithRelationInput
   vendor?: Prisma.VendorOrderByWithRelationInput
   score?: Prisma.ProposalScoreOrderByWithRelationInput
+  selectedOnRfp?: Prisma.RfpOrderByWithRelationInput
 }
 
 export type ProposalWhereUniqueInput = Prisma.AtLeast<{
@@ -346,6 +348,7 @@ export type ProposalWhereUniqueInput = Prisma.AtLeast<{
   rfp?: Prisma.XOR<Prisma.RfpScalarRelationFilter, Prisma.RfpWhereInput>
   vendor?: Prisma.XOR<Prisma.VendorScalarRelationFilter, Prisma.VendorWhereInput>
   score?: Prisma.XOR<Prisma.ProposalScoreNullableScalarRelationFilter, Prisma.ProposalScoreWhereInput> | null
+  selectedOnRfp?: Prisma.XOR<Prisma.RfpNullableScalarRelationFilter, Prisma.RfpWhereInput> | null
 }, "id">
 
 export type ProposalOrderByWithAggregationInput = {
@@ -405,6 +408,7 @@ export type ProposalCreateInput = {
   rfp: Prisma.RfpCreateNestedOneWithoutProposalsInput
   vendor: Prisma.VendorCreateNestedOneWithoutProposalsInput
   score?: Prisma.ProposalScoreCreateNestedOneWithoutProposalInput
+  selectedOnRfp?: Prisma.RfpCreateNestedOneWithoutSelectedProposalInput
 }
 
 export type ProposalUncheckedCreateInput = {
@@ -423,6 +427,7 @@ export type ProposalUncheckedCreateInput = {
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rawExtracted?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   score?: Prisma.ProposalScoreUncheckedCreateNestedOneWithoutProposalInput
+  selectedOnRfp?: Prisma.RfpUncheckedCreateNestedOneWithoutSelectedProposalInput
 }
 
 export type ProposalUpdateInput = {
@@ -440,6 +445,7 @@ export type ProposalUpdateInput = {
   rfp?: Prisma.RfpUpdateOneRequiredWithoutProposalsNestedInput
   vendor?: Prisma.VendorUpdateOneRequiredWithoutProposalsNestedInput
   score?: Prisma.ProposalScoreUpdateOneWithoutProposalNestedInput
+  selectedOnRfp?: Prisma.RfpUpdateOneWithoutSelectedProposalNestedInput
 }
 
 export type ProposalUncheckedUpdateInput = {
@@ -458,6 +464,7 @@ export type ProposalUncheckedUpdateInput = {
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rawExtracted?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   score?: Prisma.ProposalScoreUncheckedUpdateOneWithoutProposalNestedInput
+  selectedOnRfp?: Prisma.RfpUncheckedUpdateOneWithoutSelectedProposalNestedInput
 }
 
 export type ProposalCreateManyInput = {
@@ -516,6 +523,11 @@ export type ProposalListRelationFilter = {
 
 export type ProposalOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type ProposalNullableScalarRelationFilter = {
+  is?: Prisma.ProposalWhereInput | null
+  isNot?: Prisma.ProposalWhereInput | null
 }
 
 export type ProposalCountOrderByAggregateInput = {
@@ -630,6 +642,12 @@ export type ProposalUncheckedUpdateManyWithoutVendorNestedInput = {
   deleteMany?: Prisma.ProposalScalarWhereInput | Prisma.ProposalScalarWhereInput[]
 }
 
+export type ProposalCreateNestedOneWithoutSelectedOnRfpInput = {
+  create?: Prisma.XOR<Prisma.ProposalCreateWithoutSelectedOnRfpInput, Prisma.ProposalUncheckedCreateWithoutSelectedOnRfpInput>
+  connectOrCreate?: Prisma.ProposalCreateOrConnectWithoutSelectedOnRfpInput
+  connect?: Prisma.ProposalWhereUniqueInput
+}
+
 export type ProposalCreateNestedManyWithoutRfpInput = {
   create?: Prisma.XOR<Prisma.ProposalCreateWithoutRfpInput, Prisma.ProposalUncheckedCreateWithoutRfpInput> | Prisma.ProposalCreateWithoutRfpInput[] | Prisma.ProposalUncheckedCreateWithoutRfpInput[]
   connectOrCreate?: Prisma.ProposalCreateOrConnectWithoutRfpInput | Prisma.ProposalCreateOrConnectWithoutRfpInput[]
@@ -642,6 +660,16 @@ export type ProposalUncheckedCreateNestedManyWithoutRfpInput = {
   connectOrCreate?: Prisma.ProposalCreateOrConnectWithoutRfpInput | Prisma.ProposalCreateOrConnectWithoutRfpInput[]
   createMany?: Prisma.ProposalCreateManyRfpInputEnvelope
   connect?: Prisma.ProposalWhereUniqueInput | Prisma.ProposalWhereUniqueInput[]
+}
+
+export type ProposalUpdateOneWithoutSelectedOnRfpNestedInput = {
+  create?: Prisma.XOR<Prisma.ProposalCreateWithoutSelectedOnRfpInput, Prisma.ProposalUncheckedCreateWithoutSelectedOnRfpInput>
+  connectOrCreate?: Prisma.ProposalCreateOrConnectWithoutSelectedOnRfpInput
+  upsert?: Prisma.ProposalUpsertWithoutSelectedOnRfpInput
+  disconnect?: Prisma.ProposalWhereInput | boolean
+  delete?: Prisma.ProposalWhereInput | boolean
+  connect?: Prisma.ProposalWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProposalUpdateToOneWithWhereWithoutSelectedOnRfpInput, Prisma.ProposalUpdateWithoutSelectedOnRfpInput>, Prisma.ProposalUncheckedUpdateWithoutSelectedOnRfpInput>
 }
 
 export type ProposalUpdateManyWithoutRfpNestedInput = {
@@ -700,6 +728,7 @@ export type ProposalCreateWithoutVendorInput = {
   rawExtracted?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rfp: Prisma.RfpCreateNestedOneWithoutProposalsInput
   score?: Prisma.ProposalScoreCreateNestedOneWithoutProposalInput
+  selectedOnRfp?: Prisma.RfpCreateNestedOneWithoutSelectedProposalInput
 }
 
 export type ProposalUncheckedCreateWithoutVendorInput = {
@@ -717,6 +746,7 @@ export type ProposalUncheckedCreateWithoutVendorInput = {
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rawExtracted?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   score?: Prisma.ProposalScoreUncheckedCreateNestedOneWithoutProposalInput
+  selectedOnRfp?: Prisma.RfpUncheckedCreateNestedOneWithoutSelectedProposalInput
 }
 
 export type ProposalCreateOrConnectWithoutVendorInput = {
@@ -765,6 +795,46 @@ export type ProposalScalarWhereInput = {
   rawExtracted?: Prisma.JsonNullableFilter<"Proposal">
 }
 
+export type ProposalCreateWithoutSelectedOnRfpInput = {
+  emailMessageId?: string | null
+  parsedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  totalPrice?: number | null
+  currency?: string | null
+  deliveryDays?: number | null
+  warrantyMonths?: number | null
+  paymentTermsText?: string | null
+  lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  rawExtracted?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  rfp: Prisma.RfpCreateNestedOneWithoutProposalsInput
+  vendor: Prisma.VendorCreateNestedOneWithoutProposalsInput
+  score?: Prisma.ProposalScoreCreateNestedOneWithoutProposalInput
+}
+
+export type ProposalUncheckedCreateWithoutSelectedOnRfpInput = {
+  id?: number
+  rfpId: number
+  vendorId: number
+  emailMessageId?: string | null
+  parsedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  totalPrice?: number | null
+  currency?: string | null
+  deliveryDays?: number | null
+  warrantyMonths?: number | null
+  paymentTermsText?: string | null
+  lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  rawExtracted?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  score?: Prisma.ProposalScoreUncheckedCreateNestedOneWithoutProposalInput
+}
+
+export type ProposalCreateOrConnectWithoutSelectedOnRfpInput = {
+  where: Prisma.ProposalWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProposalCreateWithoutSelectedOnRfpInput, Prisma.ProposalUncheckedCreateWithoutSelectedOnRfpInput>
+}
+
 export type ProposalCreateWithoutRfpInput = {
   emailMessageId?: string | null
   parsedAt?: Date | string | null
@@ -779,6 +849,7 @@ export type ProposalCreateWithoutRfpInput = {
   rawExtracted?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   vendor: Prisma.VendorCreateNestedOneWithoutProposalsInput
   score?: Prisma.ProposalScoreCreateNestedOneWithoutProposalInput
+  selectedOnRfp?: Prisma.RfpCreateNestedOneWithoutSelectedProposalInput
 }
 
 export type ProposalUncheckedCreateWithoutRfpInput = {
@@ -796,6 +867,7 @@ export type ProposalUncheckedCreateWithoutRfpInput = {
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rawExtracted?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   score?: Prisma.ProposalScoreUncheckedCreateNestedOneWithoutProposalInput
+  selectedOnRfp?: Prisma.RfpUncheckedCreateNestedOneWithoutSelectedProposalInput
 }
 
 export type ProposalCreateOrConnectWithoutRfpInput = {
@@ -806,6 +878,52 @@ export type ProposalCreateOrConnectWithoutRfpInput = {
 export type ProposalCreateManyRfpInputEnvelope = {
   data: Prisma.ProposalCreateManyRfpInput | Prisma.ProposalCreateManyRfpInput[]
   skipDuplicates?: boolean
+}
+
+export type ProposalUpsertWithoutSelectedOnRfpInput = {
+  update: Prisma.XOR<Prisma.ProposalUpdateWithoutSelectedOnRfpInput, Prisma.ProposalUncheckedUpdateWithoutSelectedOnRfpInput>
+  create: Prisma.XOR<Prisma.ProposalCreateWithoutSelectedOnRfpInput, Prisma.ProposalUncheckedCreateWithoutSelectedOnRfpInput>
+  where?: Prisma.ProposalWhereInput
+}
+
+export type ProposalUpdateToOneWithWhereWithoutSelectedOnRfpInput = {
+  where?: Prisma.ProposalWhereInput
+  data: Prisma.XOR<Prisma.ProposalUpdateWithoutSelectedOnRfpInput, Prisma.ProposalUncheckedUpdateWithoutSelectedOnRfpInput>
+}
+
+export type ProposalUpdateWithoutSelectedOnRfpInput = {
+  emailMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentTermsText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  rawExtracted?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  rfp?: Prisma.RfpUpdateOneRequiredWithoutProposalsNestedInput
+  vendor?: Prisma.VendorUpdateOneRequiredWithoutProposalsNestedInput
+  score?: Prisma.ProposalScoreUpdateOneWithoutProposalNestedInput
+}
+
+export type ProposalUncheckedUpdateWithoutSelectedOnRfpInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  rfpId?: Prisma.IntFieldUpdateOperationsInput | number
+  vendorId?: Prisma.IntFieldUpdateOperationsInput | number
+  emailMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentTermsText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  rawExtracted?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  score?: Prisma.ProposalScoreUncheckedUpdateOneWithoutProposalNestedInput
 }
 
 export type ProposalUpsertWithWhereUniqueWithoutRfpInput = {
@@ -838,6 +956,7 @@ export type ProposalCreateWithoutScoreInput = {
   rawExtracted?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rfp: Prisma.RfpCreateNestedOneWithoutProposalsInput
   vendor: Prisma.VendorCreateNestedOneWithoutProposalsInput
+  selectedOnRfp?: Prisma.RfpCreateNestedOneWithoutSelectedProposalInput
 }
 
 export type ProposalUncheckedCreateWithoutScoreInput = {
@@ -855,6 +974,7 @@ export type ProposalUncheckedCreateWithoutScoreInput = {
   paymentTermsText?: string | null
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rawExtracted?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  selectedOnRfp?: Prisma.RfpUncheckedCreateNestedOneWithoutSelectedProposalInput
 }
 
 export type ProposalCreateOrConnectWithoutScoreInput = {
@@ -887,6 +1007,7 @@ export type ProposalUpdateWithoutScoreInput = {
   rawExtracted?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rfp?: Prisma.RfpUpdateOneRequiredWithoutProposalsNestedInput
   vendor?: Prisma.VendorUpdateOneRequiredWithoutProposalsNestedInput
+  selectedOnRfp?: Prisma.RfpUpdateOneWithoutSelectedProposalNestedInput
 }
 
 export type ProposalUncheckedUpdateWithoutScoreInput = {
@@ -904,6 +1025,7 @@ export type ProposalUncheckedUpdateWithoutScoreInput = {
   paymentTermsText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rawExtracted?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  selectedOnRfp?: Prisma.RfpUncheckedUpdateOneWithoutSelectedProposalNestedInput
 }
 
 export type ProposalCreateManyVendorInput = {
@@ -936,6 +1058,7 @@ export type ProposalUpdateWithoutVendorInput = {
   rawExtracted?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rfp?: Prisma.RfpUpdateOneRequiredWithoutProposalsNestedInput
   score?: Prisma.ProposalScoreUpdateOneWithoutProposalNestedInput
+  selectedOnRfp?: Prisma.RfpUpdateOneWithoutSelectedProposalNestedInput
 }
 
 export type ProposalUncheckedUpdateWithoutVendorInput = {
@@ -953,6 +1076,7 @@ export type ProposalUncheckedUpdateWithoutVendorInput = {
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rawExtracted?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   score?: Prisma.ProposalScoreUncheckedUpdateOneWithoutProposalNestedInput
+  selectedOnRfp?: Prisma.RfpUncheckedUpdateOneWithoutSelectedProposalNestedInput
 }
 
 export type ProposalUncheckedUpdateManyWithoutVendorInput = {
@@ -1001,6 +1125,7 @@ export type ProposalUpdateWithoutRfpInput = {
   rawExtracted?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   vendor?: Prisma.VendorUpdateOneRequiredWithoutProposalsNestedInput
   score?: Prisma.ProposalScoreUpdateOneWithoutProposalNestedInput
+  selectedOnRfp?: Prisma.RfpUpdateOneWithoutSelectedProposalNestedInput
 }
 
 export type ProposalUncheckedUpdateWithoutRfpInput = {
@@ -1018,6 +1143,7 @@ export type ProposalUncheckedUpdateWithoutRfpInput = {
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rawExtracted?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   score?: Prisma.ProposalScoreUncheckedUpdateOneWithoutProposalNestedInput
+  selectedOnRfp?: Prisma.RfpUncheckedUpdateOneWithoutSelectedProposalNestedInput
 }
 
 export type ProposalUncheckedUpdateManyWithoutRfpInput = {
@@ -1056,6 +1182,7 @@ export type ProposalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   rfp?: boolean | Prisma.RfpDefaultArgs<ExtArgs>
   vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
   score?: boolean | Prisma.Proposal$scoreArgs<ExtArgs>
+  selectedOnRfp?: boolean | Prisma.Proposal$selectedOnRfpArgs<ExtArgs>
 }, ExtArgs["result"]["proposal"]>
 
 export type ProposalSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1118,6 +1245,7 @@ export type ProposalInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   rfp?: boolean | Prisma.RfpDefaultArgs<ExtArgs>
   vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
   score?: boolean | Prisma.Proposal$scoreArgs<ExtArgs>
+  selectedOnRfp?: boolean | Prisma.Proposal$selectedOnRfpArgs<ExtArgs>
 }
 export type ProposalIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rfp?: boolean | Prisma.RfpDefaultArgs<ExtArgs>
@@ -1134,6 +1262,7 @@ export type $ProposalPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     rfp: Prisma.$RfpPayload<ExtArgs>
     vendor: Prisma.$VendorPayload<ExtArgs>
     score: Prisma.$ProposalScorePayload<ExtArgs> | null
+    selectedOnRfp: Prisma.$RfpPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1547,6 +1676,7 @@ export interface Prisma__ProposalClient<T, Null = never, ExtArgs extends runtime
   rfp<T extends Prisma.RfpDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RfpDefaultArgs<ExtArgs>>): Prisma.Prisma__RfpClient<runtime.Types.Result.GetResult<Prisma.$RfpPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   vendor<T extends Prisma.VendorDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VendorDefaultArgs<ExtArgs>>): Prisma.Prisma__VendorClient<runtime.Types.Result.GetResult<Prisma.$VendorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   score<T extends Prisma.Proposal$scoreArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Proposal$scoreArgs<ExtArgs>>): Prisma.Prisma__ProposalScoreClient<runtime.Types.Result.GetResult<Prisma.$ProposalScorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  selectedOnRfp<T extends Prisma.Proposal$selectedOnRfpArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Proposal$selectedOnRfpArgs<ExtArgs>>): Prisma.Prisma__RfpClient<runtime.Types.Result.GetResult<Prisma.$RfpPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2002,6 +2132,25 @@ export type Proposal$scoreArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   include?: Prisma.ProposalScoreInclude<ExtArgs> | null
   where?: Prisma.ProposalScoreWhereInput
+}
+
+/**
+ * Proposal.selectedOnRfp
+ */
+export type Proposal$selectedOnRfpArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Rfp
+   */
+  select?: Prisma.RfpSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Rfp
+   */
+  omit?: Prisma.RfpOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RfpInclude<ExtArgs> | null
+  where?: Prisma.RfpWhereInput
 }
 
 /**

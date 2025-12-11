@@ -121,7 +121,8 @@ export const RfpScalarFieldEnum = {
   requirements: 'requirements',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  requesterId: 'requesterId'
+  requesterId: 'requesterId',
+  selectedProposalId: 'selectedProposalId'
 } as const
 
 export type RfpScalarFieldEnum = (typeof RfpScalarFieldEnum)[keyof typeof RfpScalarFieldEnum]
