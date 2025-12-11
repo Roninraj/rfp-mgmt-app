@@ -60,7 +60,7 @@ model Rfp {
   
   // Requester relation
   requesterId     Int?
-  requester       User?     @relation("RequesterRfps", fields: [requesterId], references: [id], onDelete: SetNull)
+  requester       User?     @relation("RequesterRfps", fields: [requesterId], references: [id], onDelete: Cascade)
 
   // Selected proposal (optional) - stores the chosen proposal for this RFP
   selectedProposalId Int? @unique

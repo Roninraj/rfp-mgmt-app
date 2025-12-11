@@ -3,7 +3,6 @@ import { prisma } from '../config/database';
 interface CreateRfpData {
   title: string;
   descriptionRaw: string;
-  requesterId?: number;
   budget?: number;
   currency?: string;
   deliveryBy?: string;
@@ -22,12 +21,12 @@ interface UpdateRfpData {
 }
 
 export const rfpService = {
-  async createRfp(data: CreateRfpData) {
+  async createRfp(data: CreateRfpData, requesterId: number) {
     const rfp = await prisma.rfp.create({
       data: {
         title: data.title,
         descriptionRaw: data.descriptionRaw,
-        requesterId: data.requesterId || null,
+        requesterId: requesterId,
         budget: data.budget || null,
         currency: data.currency || 'USD',
         deliveryBy: data.deliveryBy ? new Date(data.deliveryBy) : null,
@@ -97,9 +96,9 @@ export const rfpService = {
     return rfps;
   },
 
-  async updateRfp(id: number, data: UpdateRfpData) {
+  async updateRfp(id: number, data: UpdateRfpData, requesterId: number) {
     const rfp = await prisma.rfp.update({
-      where: { id },
+      where: { id, requesterId },
       data: {
         title: data.title,
         descriptionRaw: data.descriptionRaw,
@@ -118,9 +117,9 @@ export const rfpService = {
     return rfp;
   },
 
-  async deleteRfp(id: number) {
+  async deleteRfp(id: number, requesterId: number) {
     await prisma.rfp.delete({
-      where: { id },
+      where: { id, requesterId },
     });
   },
 

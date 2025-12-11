@@ -4,15 +4,16 @@ export const proposalController = {
   // Create proposal
   async create(req: any, res: any) {
     try {
-      const { rfpId, vendorId, totalPrice, currency, deliveryDays, warrantyMonths, paymentTermsText, lineItems, rawExtracted } = req.body;
+      const { rfpId, totalPrice, currency, deliveryDays, warrantyMonths, paymentTermsText, lineItems, rawExtracted } = req.body;
+      const user = req.user;
 
-      if (!rfpId || !vendorId) {
+      if (!rfpId || !user.vendor) {
         return res.status(400).json({ message: 'rfpId and vendorId are required' });
       }
 
       const proposal = await proposalService.createProposal({
         rfpId: Number(rfpId),
-        vendorId: Number(vendorId),
+        vendorId: user.vendor.id,
         totalPrice,
         currency,
         deliveryDays,
@@ -45,7 +46,12 @@ export const proposalController = {
   async getByVendor(req: any, res: any) {
     try {
       const vendorId = Number(req.params.vendorId);
+      const user = req.user;
+
       if (!vendorId) return res.status(400).json({ message: 'Invalid vendorId' });
+      if (!user.vendor || user.vendor.id !== vendorId) {
+        return res.status(403).json({ message: 'Forbidden' });
+      }
 
       const proposals = await proposalService.getProposalsByVendorId(vendorId);
       res.json(proposals);

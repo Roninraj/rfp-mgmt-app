@@ -22,11 +22,13 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
 		if (!decoded || !decoded.id) return res.status(401).json({ message: 'Invalid token' });
 
 		// Fetch user and attach to request
-		const user = await prisma.user.findUnique({ where: { id: decoded.id } });
+		const user = await prisma.user.findUnique({
+			where: { id: decoded.id },
+			include: { vendor: true },
+		});
 		if (!user) return res.status(401).json({ message: 'User not found' });
 
-		// @ts-ignore - attach user
-		req.user = { id: user.id, email: user.email, role: user.role };
+		req.user = { id: user.id, email: user.email, role: user.role, vendor: user.vendor };
 		next();
 	} catch (err) {
 		console.error('Auth error:', err);
@@ -36,7 +38,6 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
 
 export function requireRole(role: string) {
 	return (req: Request, res: Response, next: NextFunction) => {
-		// @ts-ignore
 		const user = req.user;
 		if (!user) return res.status(401).json({ message: 'Not authenticated' });
 		if (user.role !== role) return res.status(403).json({ message: 'Forbidden' });

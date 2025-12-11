@@ -4,7 +4,20 @@ import { rfpService } from '../services/rfp.service';
 export const rfpController = {
   async create(req: Request, res: Response) {
     try {
-      const result = await rfpService.createRfp(req.body);
+      const user = req.user;
+      if (!user) return res.status(401).json({ message: 'Not authenticated' });
+
+      const { title, descriptionRaw, budget, currency, deliveryBy, paymentTerms, requirements } = req.body;
+
+      if (!title || typeof title !== 'string') {
+        return res.status(400).json({ message: 'Title is required and must be a string' });
+      }
+
+      if (!descriptionRaw || typeof descriptionRaw !== 'string') {
+        return res.status(400).json({ message: 'Description is required and must be a string' });
+      }
+
+      const result = await rfpService.createRfp({ title, descriptionRaw, budget, currency, deliveryBy, paymentTerms, requirements }, user.id);
       return res.status(201).json(result);
     } catch (err) {
       console.error(err);
@@ -41,7 +54,20 @@ export const rfpController = {
   async update(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
-      const rfp = await rfpService.updateRfp(id, req.body);
+      const user = req.user;
+      if (!user) return res.status(401).json({ message: 'Not authenticated' });
+
+      const { title, descriptionRaw, budget, currency, deliveryBy, paymentTerms, requirements } = req.body;
+
+      if (title && typeof title !== 'string') {
+        return res.status(400).json({ message: 'Title must be a string' });
+      }
+
+      if (descriptionRaw && typeof descriptionRaw !== 'string') {
+        return res.status(400).json({ message: 'Description must be a string' });
+      }
+
+      const rfp = await rfpService.updateRfp(id, { title, descriptionRaw, budget, currency, deliveryBy, paymentTerms, requirements }, user.id);
       return res.json(rfp);
     } catch (err) {
       console.error(err);
@@ -52,7 +78,9 @@ export const rfpController = {
   async delete(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
-      await rfpService.deleteRfp(id);
+       const user = req.user;
+      if (!user) return res.status(401).json({ message: 'Not authenticated' });
+      await rfpService.deleteRfp(id, user.id);
       return res.status(204).send();
     } catch (err) {
       console.error(err);
