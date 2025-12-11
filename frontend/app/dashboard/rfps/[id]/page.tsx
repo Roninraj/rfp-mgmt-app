@@ -3,9 +3,48 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { AuthGuard } from '@/components/AuthGuard';
-import { rfpApi } from '@/lib/api';
+import { rfpApi, proposalApi } from '@/lib/api';
 import { RFP } from '@/lib/types';
 import { ProposalCard } from '@/components/ProposalCard';
+import { useAuthStore } from '@/lib/store';
+
+// Simple vendor proposal form state
+function VendorProposalForm({ rfpId, onCreated }: { rfpId: number; onCreated: () => void }) {
+  const [totalPrice, setTotalPrice] = useState('');
+  const [deliveryDays, setDeliveryDays] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { token } = useAuthStore();
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      await proposalApi.create(rfpId, {
+        totalPrice: Number(totalPrice),
+        deliveryDays: Number(deliveryDays || 0),
+      });
+      setTotalPrice('');
+      setDeliveryDays('');
+      onCreated();
+    } catch (err) {
+      console.error('Proposal submit error', err);
+      alert('Failed to submit proposal');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={submit} style={{ margin: '1rem 0', background: '#fff', padding: '1rem', borderRadius: 8 }}>
+      <h3>Submit a proposal</h3>
+      <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+        <input placeholder="Total price" value={totalPrice} onChange={(e) => setTotalPrice(e.target.value)} />
+        <input placeholder="Delivery days" value={deliveryDays} onChange={(e) => setDeliveryDays(e.target.value)} />
+        <button type="submit" disabled={loading}>{loading ? 'Submitting...' : 'Submit'}</button>
+      </div>
+    </form>
+  );
+}
 
 export default function RFPDetailPage() {
   const params = useParams();
@@ -38,6 +77,11 @@ export default function RFPDetailPage() {
       <div style={styles.container}>
         <h1 className=" text-blue-900">{<strong>{rfp.title}</strong>}</h1><br/><br/>
         <div style={styles.details}>
+          {rfp.requester && (
+            <div style={{ marginBottom: 12 }}>
+              <strong>Requester:</strong> {rfp.requester.name} {rfp.requester.companyName ? `- ${rfp.requester.companyName}` : ''}
+            </div>
+          )}
           <p><strong>Description:</strong> {rfp.descriptionRaw}</p><br/>
           <p><strong>Budget:</strong> {rfp.budget?.toLocaleString() || 'N/A'} {rfp.currency}</p><br/>
           <p><strong>Delivery By:</strong> {new Date(rfp.deliveryBy).toLocaleDateString()}</p><br/>
@@ -46,6 +90,10 @@ export default function RFPDetailPage() {
         </div>
 
         <h2>Proposals ({rfp.proposals?.length || 0})</h2>
+        {/* If logged-in user is a vendor show the create form */}
+        {useAuthStore.getState().user?.role === 'vendor' && (
+          <VendorProposalForm rfpId={rfp.id} onCreated={loadRFP} />
+        )}
         {rfp.proposals && rfp.proposals.length > 0 ? (
           rfp.proposals.map((proposal) => (
             <ProposalCard key={proposal.id} proposal={proposal} />

@@ -17,7 +17,9 @@ router.use('/rfps', rfpRouter);
 router.use('/vendors', vendorRouter);
 
 // Proposal routes
-router.use('/rfps', proposalRouter);
+// Mount proposal routes at root so their defined paths are preserved
+// Mount proposals under /proposals (keeps endpoints intuitive)
+router.use('/proposals', proposalRouter);
 
 // Health checks
 router.get('/health', async (_req, res) => {

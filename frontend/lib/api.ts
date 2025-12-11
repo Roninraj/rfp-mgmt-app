@@ -121,7 +121,7 @@ export const proposalApi = {
   create: async (rfpId: number, data: any) => {
     const res = await fetch(`${API_URL}/proposals`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeader(),
       body: JSON.stringify({ rfpId, ...data }),
     });
     if (!res.ok) throw new Error('Failed to create proposal');

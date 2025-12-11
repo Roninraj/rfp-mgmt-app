@@ -28,6 +28,7 @@ export default function ProposalDetailPage() {
     load();
   }, [id]);
 
+  
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   if (!proposal) return <div>Proposal not found</div>;

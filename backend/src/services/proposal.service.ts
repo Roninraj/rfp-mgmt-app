@@ -82,6 +82,18 @@ export const proposalService = {
     return proposal;
   },
 
+  async getAllProposals() {
+    const proposals = await prisma.proposal.findMany({
+      include: {
+        vendor: true,
+        rfp: true,
+        score: true,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+    return proposals;
+  },
+
   async updateProposal(id: number, data: Partial<CreateProposalData>) {
     const proposal = await prisma.proposal.update({
       where: { id },

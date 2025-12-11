@@ -68,4 +68,14 @@ export const proposalController = {
       res.status(400).json({ message: err.message });
     }
   },
+
+  // Get all proposals
+  async getAll(req: any, res: any) {
+    try {
+      const proposals = await proposalService.getAllProposals();
+      res.json(proposals);
+    } catch (err: any) {
+      res.status(400).json({ message: err.message });
+    }
+  },
 };
