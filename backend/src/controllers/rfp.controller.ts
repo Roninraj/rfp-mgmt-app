@@ -112,4 +112,47 @@ export const rfpController = {
       return res.status(500).json({ message: 'Failed to select proposal' });
     }
   },
+
+  async unselectProposal(req: Request, res: Response) {
+    try {
+      const rfpId = Number(req.params.rfpId || req.params.id);
+      // @ts-ignore
+      const user = req.user;
+      if (!user) return res.status(401).json({ message: 'Not authenticated' });
+
+      const rfp = await rfpService.getRfpById(rfpId);
+      if (!rfp) return res.status(404).json({ message: 'RFP not found' });
+      if (rfp.requesterId !== user.id) return res.status(403).json({ message: 'You do not own this RFP' });
+
+      const updated = await rfpService.unselectProposal(rfpId);
+      return res.json(updated);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'Failed to unselect proposal' });
+    }
+  },
+
+  async inviteVendor(req: Request, res: Response) {
+    try {
+      const rfpId = Number(req.params.id);
+      const { vendorId } = req.body;
+      // @ts-ignore
+      const user = req.user;
+
+      if (!user) return res.status(401).json({ message: 'Not authenticated' });
+      if (!vendorId) return res.status(400).json({ message: 'vendorId is required' });
+
+      // Check ownership
+      const rfp = await rfpService.getRfpById(rfpId);
+      if (!rfp) return res.status(404).json({ message: 'RFP not found' });
+      if (rfp.requesterId !== user.id) return res.status(403).json({ message: 'You do not own this RFP' });
+
+      const result = await rfpService.inviteVendor(rfpId, Number(vendorId));
+      return res.status(201).json(result);
+    } catch (err: any) {
+      console.error(err);
+      if (err.code === 'P2002') return res.status(409).json({ message: 'Vendor already invited' });
+      return res.status(500).json({ message: 'Failed to invite vendor' });
+    }
+  },
 };

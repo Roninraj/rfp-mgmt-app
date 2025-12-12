@@ -1,4 +1,6 @@
 import { prisma } from '../config/database';
+import { emailService } from './email.service';
+import { aiService } from './ai.service';
 
 interface CreateProposalData {
   rfpId: number;
@@ -15,7 +17,10 @@ interface CreateProposalData {
 export const proposalService = {
   async createProposal(data: CreateProposalData) {
     const [rfp, vendor] = await Promise.all([
-      prisma.rfp.findUnique({ where: { id: data.rfpId } }),
+      prisma.rfp.findUnique({ 
+        where: { id: data.rfpId },
+        include: { requester: true }, 
+      }),
       prisma.vendor.findUnique({ where: { id: data.vendorId } }),
     ]);
 
@@ -39,6 +44,51 @@ export const proposalService = {
         rfp: true,
         score: true,
       },
+    });
+
+    // Send email notification to requester
+    if (rfp.requester?.email) {
+      const messageId = await emailService.sendProposalSubmitted(
+        rfp.requester.email,
+        rfp.title,
+        vendor.name,
+        proposal.id
+      );
+      
+      if (messageId) {
+        await prisma.proposal.update({
+          where: { id: proposal.id },
+          data: { emailMessageId: messageId },
+        });
+      }
+    }
+
+    // Trigger AI Scoring asynchronously
+    aiService.scoreProposal({
+      rfpTitle: rfp.title,
+      rfpDescription: rfp.descriptionRaw,
+      rfpBudget: rfp.budget,
+      rfpDeliveryDate: rfp.deliveryBy,
+      proposalPrice: proposal.totalPrice,
+      proposalDeliveryDays: proposal.deliveryDays,
+      proposalWarranty: proposal.warrantyMonths,
+      proposalPaymentTerms: proposal.paymentTermsText,
+    }).then(async (score) => {
+      if (score) {
+        await prisma.proposalScore.create({
+          data: {
+            proposalId: proposal.id,
+            priceScore: score.priceScore,
+            deliveryScore: score.deliveryScore,
+            warrantyScore: score.warrantyScore,
+            overallScore: score.overallScore,
+            explanation: score.explanation,
+          },
+        });
+        console.log(`AI Score generated for proposal ${proposal.id}`);
+      }
+    }).catch(err => {
+      console.error('Failed to save AI score:', err);
     });
 
     return proposal;
@@ -113,5 +163,11 @@ export const proposalService = {
       },
     });
     return proposal;
+  },
+
+  async deleteProposal(id: number) {
+    await prisma.proposal.delete({
+      where: { id },
+    });
   },
 };

@@ -6,45 +6,9 @@ import { AuthGuard } from '@/components/AuthGuard';
 import { rfpApi, proposalApi } from '@/lib/api';
 import { RFP } from '@/lib/types';
 import { ProposalCard } from '@/components/ProposalCard';
+import { VendorProposalForm } from '@/components/VendorProposalForm';
+import { InviteVendorForm } from '@/components/InviteVendorForm';
 import { useAuthStore } from '@/lib/store';
-
-// Simple vendor proposal form state
-function VendorProposalForm({ rfpId, onCreated }: { rfpId: number; onCreated: () => void }) {
-  const [totalPrice, setTotalPrice] = useState('');
-  const [deliveryDays, setDeliveryDays] = useState('');
-  const [loading, setLoading] = useState(false);
-  const { token } = useAuthStore();
-
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      setLoading(true);
-      await proposalApi.create(rfpId, {
-        totalPrice: Number(totalPrice),
-        deliveryDays: Number(deliveryDays || 0),
-      });
-      setTotalPrice('');
-      setDeliveryDays('');
-      onCreated();
-    } catch (err) {
-      console.error('Proposal submit error', err);
-      alert('Failed to submit proposal');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <form onSubmit={submit} style={{ margin: '1rem 0', background: '#fff', padding: '1rem', borderRadius: 8 }}>
-      <h3>Submit a proposal</h3>
-      <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-        <input placeholder="Total price" value={totalPrice} onChange={(e) => setTotalPrice(e.target.value)} />
-        <input placeholder="Delivery days" value={deliveryDays} onChange={(e) => setDeliveryDays(e.target.value)} />
-        <button type="submit" disabled={loading}>{loading ? 'Submitting...' : 'Submit'}</button>
-      </div>
-    </form>
-  );
-}
 
 export default function RFPDetailPage() {
   const params = useParams();
@@ -69,6 +33,9 @@ export default function RFPDetailPage() {
     }
   };
 
+  const user = useAuthStore((state) => state.user);
+  const isRequesterOwner = user?.role === 'requester' && rfp?.requesterId === user?.id;
+
   if (loading) return <AuthGuard><div>Loading...</div></AuthGuard>;
   if (error) return <AuthGuard><div style={{ color: 'red' }}>{error}</div></AuthGuard>;
   if (!rfp) return <AuthGuard><div>RFP not found</div></AuthGuard>;
@@ -89,6 +56,15 @@ export default function RFPDetailPage() {
           {rfp.paymentTerms && <p><strong>Payment Terms:</strong> {rfp.paymentTerms}</p>}<br/>
           {rfp.requirements && <p><strong>Requirements:</strong> {rfp.requirements}</p>}
         </div>
+
+        {/* Invite Vendors Section for Requester */}
+        {isRequesterOwner && (
+          <InviteVendorForm 
+            rfpId={rfp.id} 
+            existingInvites={rfp.rfpVendors || []} 
+            onInviteSuccess={loadRFP} 
+          />
+        )}
 
         <h2>Proposals ({rfp.proposals?.length || 0})</h2>
         {/* Transient notice (e.g., after selecting a proposal) */}
@@ -120,6 +96,19 @@ export default function RFPDetailPage() {
                 } catch (err: any) {
                   console.error(err);
                   setNotice(err.message || 'Failed to select proposal');
+                  setTimeout(() => setNotice(''), 3500);
+                }
+              }}
+              onUnselect={async () => {
+                if (!confirm('Unselect this proposal?')) return;
+                try {
+                  await rfpApi.unselectProposal(rfp.id);
+                  await loadRFP();
+                  setNotice('Proposal unselected successfully');
+                  setTimeout(() => setNotice(''), 3500);
+                } catch (err: any) {
+                  console.error(err);
+                  setNotice(err.message || 'Failed to unselect proposal');
                   setTimeout(() => setNotice(''), 3500);
                 }
               }}

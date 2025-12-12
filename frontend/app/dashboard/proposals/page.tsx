@@ -53,8 +53,14 @@ export default function ProposalsPage() {
     if (userJson) {
       try {
         const user = JSON.parse(userJson);
-        if (user?.role === 'vendor' && user?.id) {
-          loadForVendor(user.id);
+        if (user?.role === 'vendor') {
+          if (user.vendor?.id) {
+            loadForVendor(user.vendor.id);
+          } else {
+             // Fallback or error if vendor ID is missing (e.g. old session)
+             setError("Vendor profile not found. Please log out and log in again.");
+             setLoading(false);
+          }
           return;
         }
       } catch (e) {
@@ -90,7 +96,24 @@ export default function ProposalsPage() {
                       <p className="font-bold text-lg">${prop.totalPrice} {prop.currency}</p>
                       <p className="text-sm text-gray-500">{prop.deliveryDays} days delivery</p>
                     </div>
-                    <span className="text-blue-500 font-medium">View Details →</span>
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={async (e) => {
+                          e.preventDefault(); // Prevent Link navigation
+                          if (!confirm('Are you sure you want to delete this proposal?')) return;
+                          try {
+                            await proposalApi.delete(prop.id);
+                            setVendorProposals((prev) => prev ? prev.filter(p => p.id !== prop.id) : []);
+                          } catch (err: any) {
+                            alert('Failed to delete proposal');
+                          }
+                        }}
+                        className="text-red-600 hover:text-red-800 text-sm font-medium px-2 py-1 rounded hover:bg-red-50 transition-colors"
+                      >
+                        Delete
+                      </button>
+                      <span className="text-blue-500 font-medium">View Details →</span>
+                    </div>
                   </div>
                 </div>
               </Link>

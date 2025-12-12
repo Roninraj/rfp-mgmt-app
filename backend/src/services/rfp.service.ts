@@ -1,4 +1,5 @@
 import { prisma } from '../config/database';
+import { emailService } from './email.service';
 
 interface CreateRfpData {
   title: string;
@@ -135,6 +136,16 @@ export const rfpService = {
         vendor: true,
       },
     });
+
+    if (rfpVendor.vendor.email) {
+      await emailService.sendVendorInvitation(
+        rfpVendor.vendor.email,
+        rfpVendor.vendor.name,
+        rfpVendor.rfp.title,
+        rfpVendor.rfp.id
+      );
+    }
+
     return rfpVendor;
   },
 
@@ -161,6 +172,27 @@ export const rfpService = {
       },
     });
 
+    if (updated.selectedProposal?.vendor?.email) {
+      await emailService.sendProposalSelected(
+        updated.selectedProposal.vendor.email,
+        updated.selectedProposal.vendor.name,
+        updated.title
+      );
+    }
+
+    return updated;
+  },
+
+  async unselectProposal(rfpId: number) {
+    const updated = await prisma.rfp.update({
+      where: { id: rfpId },
+      data: { selectedProposalId: null },
+      include: {
+        requester: true,
+        proposals: { include: { vendor: true, score: true } },
+        rfpVendors: { include: { vendor: true } },
+      },
+    });
     return updated;
   },
 };

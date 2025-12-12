@@ -15,7 +15,7 @@ export const vendorController = {
   async getAll(req: Request, res: Response) {
     try {
       const vendors = await vendorService.getAllVendors();
-      return res.json(vendors);
+      return res.json({ vendors });
     } catch (err) {
       console.error(err);
       return res.status(500).json({ message: 'Failed to fetch vendors' });

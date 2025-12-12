@@ -16,5 +16,8 @@ proposalRouter.get('/vendor/:vendorId', authenticate, requireRole('vendor'), pro
 // Get single proposal (GET /proposals/:id)
 proposalRouter.get('/:id', authenticate, proposalController.getById);
 
+// Delete proposal (DELETE /proposals/:id) - requires authenticated vendor
+proposalRouter.delete('/:id', authenticate, requireRole('vendor'), proposalController.delete);
+
 // Note: retrieving proposals for an RFP remains under the RFP routes
 // as GET /rfps/:rfpId/proposals for compatibility with the frontend.

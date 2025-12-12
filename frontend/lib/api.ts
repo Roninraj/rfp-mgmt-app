@@ -73,6 +73,32 @@ export const rfpApi = {
     }
     return response.json();
   },
+
+  // Unselect a proposal for an RFP
+  unselectProposal: async (rfpId: number) => {
+    const response = await fetch(`${API_URL}/rfps/${rfpId}/unselect-proposal`, {
+      method: 'POST',
+      headers: getAuthHeader(),
+    });
+    if (!response.ok) {
+      throw new Error('Failed to unselect proposal');
+    }
+    return response.json();
+  },
+
+  // Invite a vendor to an RFP
+  inviteVendor: async (rfpId: number, vendorId: number) => {
+    const response = await fetch(`${API_URL}/rfps/${rfpId}/invite`, {
+      method: 'POST',
+      headers: getAuthHeader(),
+      body: JSON.stringify({ vendorId }),
+    });
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(text || 'Failed to invite vendor');
+    }
+    return response.json();
+  },
 };
 
 // ===== VENDOR API =====
@@ -143,22 +169,38 @@ export const proposalApi = {
 
   // Get proposals for an RFP (for requester)
   getByRfp: async (rfpId: number) => {
-    const res = await fetch(`${API_URL}/rfps/${rfpId}/proposals`);
+    const res = await fetch(`${API_URL}/rfps/${rfpId}/proposals`, {
+      headers: getAuthHeader(),
+    });
     if (!res.ok) throw new Error('Failed to fetch proposals');
     return res.json();
   },
 
   // ✅ Get proposals by vendor (for vendor)
   getByVendor: async (vendorId: number) => {
-    const res = await fetch(`${API_URL}/proposals/vendor/${vendorId}`);
+    const res = await fetch(`${API_URL}/proposals/vendor/${vendorId}`, {
+      headers: getAuthHeader(),
+    });
     if (!res.ok) throw new Error('Failed to fetch vendor proposals');
     return res.json();
   },
 
   // ✅ Get single proposal details
   getById: async (id: number) => {
-    const res = await fetch(`${API_URL}/proposals/${id}`);
+    const res = await fetch(`${API_URL}/proposals/${id}`, {
+      headers: getAuthHeader(),
+    });
     if (!res.ok) throw new Error('Failed to fetch proposal');
     return res.json();
+  },
+
+  // Delete proposal
+  delete: async (id: number) => {
+    const res = await fetch(`${API_URL}/proposals/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeader(),
+    });
+    if (!res.ok) throw new Error('Failed to delete proposal');
+    return true;
   },
 };

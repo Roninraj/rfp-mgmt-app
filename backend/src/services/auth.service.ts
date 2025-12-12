@@ -49,8 +49,9 @@ export const authService = {
     });
 
     // 🔑 If vendor user, create matching Vendor row
+    let vendor = null;
     if (newUser.role === 'vendor') {
-      await prisma.vendor.create({
+      vendor = await prisma.vendor.create({
         data: {
           name: newUser.name,
           email: newUser.email,
@@ -75,6 +76,7 @@ export const authService = {
         name: newUser.name,
         email: newUser.email,
         role: newUser.role,
+        vendor,
       },
     };
   },
@@ -83,6 +85,7 @@ export const authService = {
     // Find user
     const user = await prisma.user.findUnique({
       where: { email },
+      include: { vendor: true },
     });
 
     if (!user) {
@@ -120,6 +123,7 @@ export const authService = {
         name: user.name,
         email: user.email,
         role: user.role,
+        vendor: user.vendor,
       },
     };
   },
