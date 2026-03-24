@@ -1,0 +1,121 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../src/generated"
+  previewFeatures = ["driverAdapters"]
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  password    String
+  name        String
+  role        String   @default("vendor") // "requester" or "vendor"
+  companyName String?
+  phone       String?
+  address     String?
+  city        String?
+  state       String?
+  country     String?
+  postalCode  String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  createdRfps Rfp[]   @relation("RequesterRfps")
+  vendor      Vendor? @relation("UserVendor") // Link to Vendor (optional, only for vendor users)
+}
+
+model Vendor {
+  id            Int      @id @default(autoincrement())
+  name          String
+  email         String   @unique
+  contactPerson String?
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Link back to User (optional, for vendor users)
+  userId Int?  @unique
+  user   User? @relation("UserVendor", fields: [userId], references: [id], onDelete: SetNull)
+
+  proposals  Proposal[]
+  rfpVendors RfpVendor[]
+}
+
+model Rfp {
+  id             Int       @id @default(autoincrement())
+  title          String
+  descriptionRaw String
+  budget         Float?
+  currency       String?   @default("USD")
+  deliveryBy     DateTime?
+  paymentTerms   String?
+  requirements   Json?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  // Requester relation
+  requesterId Int?
+  requester   User? @relation("RequesterRfps", fields: [requesterId], references: [id], onDelete: Cascade)
+
+  // Selected proposal (optional) - stores the chosen proposal for this RFP
+  selectedProposalId Int?      @unique
+  selectedProposal   Proposal? @relation("RfpSelectedProposal", fields: [selectedProposalId], references: [id], onDelete: SetNull)
+
+  proposals  Proposal[]
+  rfpVendors RfpVendor[]
+}
+
+model RfpVendor {
+  id        Int      @id @default(autoincrement())
+  rfp       Rfp      @relation(fields: [rfpId], references: [id], onDelete: Cascade)
+  rfpId     Int
+  vendor    Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  vendorId  Int
+  status    String   @default("invited")
+  createdAt DateTime @default(now())
+
+  @@unique([rfpId, vendorId]) // Prevent duplicate invites
+}
+
+model Proposal {
+  id             Int       @id @default(autoincrement())
+  rfp            Rfp       @relation(fields: [rfpId], references: [id], onDelete: Cascade)
+  rfpId          Int
+  vendor         Vendor    @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  vendorId       Int
+  emailMessageId String?
+  parsedAt       DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  totalPrice       Float?
+  currency         String? @default("USD")
+  deliveryDays     Int?
+  warrantyMonths   Int?
+  paymentTermsText String?
+  lineItems        Json?
+  rawExtracted     Json?
+
+  score ProposalScore?
+
+  // Back-reference for when a proposal is selected for an RFP
+  selectedOnRfp Rfp? @relation("RfpSelectedProposal")
+}
+
+model ProposalScore {
+  id            Int      @id @default(autoincrement())
+  proposal      Proposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  proposalId    Int      @unique
+  priceScore    Float?
+  deliveryScore Float?
+  warrantyScore Float?
+  overallScore  Float?
+  explanation   String?
+}
